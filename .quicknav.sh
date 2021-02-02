@@ -41,7 +41,7 @@ function lifebook() {
 }
 
 function viminit() {
-  cd "/home/${USER}/.config/nvim" && vim init.vim
+  cd "/home/${USER}/.dotfiles" && vim init.vim
 }
 
 function vimtodo() {
@@ -53,7 +53,7 @@ function logicamorsa() {
 }
 
 function kittyconfig() {
-  cd "/home/${USER}/.config/kitty" && vim kitty.conf
+  cd "/home/${USER}/.dotfiles" && vim kitty.conf
 }
 
 function snippets() {
