@@ -26,6 +26,7 @@ Plug 'balanceiskey/vim-framer-syntax'
 Plug 'bluz71/vim-moonfly-colors'
 Plug 'agude/vim-eldar'
 Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
+Plug 'mbbill/undotree'
 
 call plug#end()
 
@@ -80,6 +81,7 @@ nnoremap <leader>pb :Buffers<CR>
 nnoremap <leader>gv :FloatermNew lazygit<CR>
 
 nnoremap <leader>gb :Git blame<CR>
+nnoremap <leader>gu :UndotreeToggle<CR>
 
 " move line up/down
 nnoremap <A-j> :m .+1<CR>==
