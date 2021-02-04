@@ -41,7 +41,7 @@ function lifebook() {
 }
 
 function viminit() {
-  cd "/home/${USER}/.dotfiles" && vim init.vim
+  cd "/home/${USER}/.dotfiles/nvim" && vim init.vim
 }
 
 function vimtodo() {
