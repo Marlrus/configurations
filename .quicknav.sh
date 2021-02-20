@@ -1,6 +1,6 @@
 #!/bin/bash
 
-sprintNumber=30
+sprintNumber=32
 
 function currentsprint() {
   echo "Moving very fast!"
@@ -62,5 +62,13 @@ function snippets() {
 
 function business() {
   cd "/home/${USER}/Dropbox/sidBusiness"
+}
+
+function dotfiles() {
+  cd "/home/${USER}/.dotfiles"
+}
+
+function brokers() {
+  cd "/home/marlrus/webDev/habi/habi-brokers"
 }
 
