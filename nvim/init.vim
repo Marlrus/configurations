@@ -26,7 +26,7 @@ Plug 'balanceiskey/vim-framer-syntax'
 Plug 'bluz71/vim-moonfly-colors'
 Plug 'agude/vim-eldar'
 Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
-Plug 'mbbill/undotree'
+" Plug 'mbbill/undotree'
 
 call plug#end()
 
@@ -148,7 +148,7 @@ xmap <c-s>     <Plug>(neosnippet_expand_target)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gy', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', '<F2>', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
   end
-  local servers = {'jsonls', 'tsserver', 'cssls', 'html', 'graphql', 'yamlls', 'bashls', 'vimls' }
+  local servers = {'jsonls', 'tsserver', 'cssls', 'html', 'graphql', 'yamlls', 'bashls', 'vimls', 'angularls' }
   for _, lsp in ipairs(servers) do
     nvim_lsp[lsp].setup {
       on_attach = on_attach,

@@ -1,15 +1,15 @@
 #!/bin/bash
 
-sprintNumber=32
+sprintNumber=3
 
 function currentsprint() {
   echo "Moving very fast!"
-  cd "/home/marlrus/Dropbox/habi/2021sprints/${sprintNumber}sprint"
+  cd "/home/marlrus/Dropbox/luca/2021/sprint${sprintNumber}"
 }
 
-function habirepos() {
+function lucaRepos() {
   echo "VROOM!"
-  cd "/home/marlrus/webDev/habi"
+  cd "/home/marlrus/webDev/luca"
 }
 
 function personaldev() {
