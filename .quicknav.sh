@@ -2,34 +2,44 @@
 
 sprintNumber=3
 month="march"
-currentCourse="/home/marlrus/webDev/learning/fireship/nextJs/nextfire-app"
+currentCourse="/home/${USER}/webDev/learning/fireship/nextJs/nextfire-app"
 
 function coursecurrent() {
   cd "${currentCourse}"
 }
 
 function gitlocal() {
-  cd "/home/marlrus/webDev/templatesAndDefaults" && vim githublocalconfig
+  cd "/home/${USER}/webDev/templatesAndDefaults" 
+  vim githublocalconfig
 }
 
 function currentsprint() {
   echo "Moving very fast!"
-  cd "/home/marlrus/Dropbox/luca/2021/sprint${sprintNumber}"
+  cd "/home/${USER}/Dropbox/luca/2021/sprint${sprintNumber}"
 }
 
-function lucaRepos() {
+function lucarepos() {
   echo "VROOM!"
-  cd "/home/marlrus/webDev/luca"
+  cd "/home/${USER}/webDev/luca"
+  eval "$(ssh-agent -s)"
+  ssh-add ~/.ssh/luca_edu
+}
+
+function marlrus() {
+  echo "VROOM!"
+  cd "/home/${USER}/webDev/personalSites"
+  eval "$(ssh-agent -s)"
+  ssh-add ~/.ssh/id_ed25519
 }
 
 function todo() {
   echo "Go get em!"
-  cd "/home/marlrus/Dropbox/newLife" && vim ${month}Todo.md
+  cd "/home/${USER}/Dropbox/newLife" && vim ${month}Todo.md
 }
 
 function gratjournal() {
   echo "Write fast!"
-  cd "/home/marlrus/Dropbox/pDevelopment/writing/journaling" && vim q1gratJournaling.md 
+  cd "/home/${USER}/Dropbox/pDevelopment/writing/journaling" && vim q1gratJournaling.md 
 }
 
 function devsshtunel() {
@@ -38,11 +48,11 @@ function devsshtunel() {
 }
 
 function devgoals() {
-  cd "/home/marlrus/webDev" && vim .goals.md
+  cd "/home/${USER}/webDev" && vim .goals.md
 }
 
 function vimcheatsheet() {
-  cd "/home/marlrus/webDev/vim" && vim cheatSheet.md
+  cd "/home/${USER}/webDev/vim" && vim cheatSheet.md
 }
 
 function lifebook() {
@@ -76,9 +86,5 @@ function business() {
 
 function dotfiles() {
   cd "/home/${USER}/.dotfiles"
-}
-
-function brokers() {
-  cd "/home/marlrus/webDev/habi/habi-brokers"
 }
 
