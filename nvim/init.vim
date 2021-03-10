@@ -148,7 +148,7 @@ xmap <c-s>     <Plug>(neosnippet_expand_target)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gy', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', '<F2>', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
   end
-  local servers = {'jsonls', 'tsserver', 'cssls', 'html', 'graphql', 'yamlls', 'bashls', 'vimls', 'angularls' }
+  local servers = {'jsonls', 'tsserver', 'cssls', 'graphql', 'yamlls', 'bashls', 'vimls', 'angularls' }
   for _, lsp in ipairs(servers) do
     nvim_lsp[lsp].setup {
       on_attach = on_attach,

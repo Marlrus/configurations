@@ -1,6 +1,16 @@
 #!/bin/bash
 
 sprintNumber=3
+month="march"
+currentCourse="/home/marlrus/webDev/learning/fireship/nextJs/nextfire-app"
+
+function coursecurrent() {
+  cd "${currentCourse}"
+}
+
+function gitlocal() {
+  cd "/home/marlrus/webDev/templatesAndDefaults" && vim githublocalconfig
+}
 
 function currentsprint() {
   echo "Moving very fast!"
@@ -12,14 +22,14 @@ function lucaRepos() {
   cd "/home/marlrus/webDev/luca"
 }
 
-function personaldev() {
-				echo "Go get em!"
-				cd "/home/marlrus/Dropbox/pDevelopment"
+function todo() {
+  echo "Go get em!"
+  cd "/home/marlrus/Dropbox/newLife" && vim ${month}Todo.md
 }
 
 function gratjournal() {
-				echo "Write fast!"
-				cd "/home/marlrus/Dropbox/pDevelopment/writing/journaling" && vim q1gratJournaling.md 
+  echo "Write fast!"
+  cd "/home/marlrus/Dropbox/pDevelopment/writing/journaling" && vim q1gratJournaling.md 
 }
 
 function devsshtunel() {
