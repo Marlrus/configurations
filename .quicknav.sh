@@ -19,15 +19,18 @@ function currentsprint() {
 }
 
 function lucarepos() {
-  echo "VROOM!"
   cd "/home/${USER}/webDev/luca"
   eval "$(ssh-agent -s)"
   ssh-add ~/.ssh/luca_edu
 }
 
-function marlrus() {
-  echo "VROOM!"
+function repos() {
   cd "/home/${USER}/webDev/personalSites"
+  eval "$(ssh-agent -s)"
+  ssh-add ~/.ssh/id_ed25519
+}
+
+function marlrus() {
   eval "$(ssh-agent -s)"
   ssh-add ~/.ssh/id_ed25519
 }
