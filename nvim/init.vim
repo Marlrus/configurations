@@ -48,8 +48,8 @@ set guicursor=n-v-c-i:block,r-cr:hor20,o:hor50
 set noerrorbells
 set noswapfile
 set nobackup
-set undodir=~/.vim/undodir
-set undofile
+" set undodir=~/.vim/undodir
+" set undofile
 set incsearch
 set scrolloff=15
 set signcolumn=yes
@@ -81,7 +81,12 @@ nnoremap <leader>pb :Buffers<CR>
 nnoremap <leader>gv :FloatermNew lazygit<CR>
 
 nnoremap <leader>gb :Git blame<CR>
-nnoremap <leader>gu :UndotreeToggle<CR>
+" nnoremap <leader>gu :UndotreeToggle<CR>
+
+" Git fugitive
+nnoremap <leader>gs :G<CR>
+nnoremap <leader>gh :diffget //3<CR>
+nnoremap <leader>gu :diffget //2<CR>
 
 " move line up/down
 nnoremap <A-j> :m .+1<CR>==
