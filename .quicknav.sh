@@ -1,8 +1,10 @@
 #!/bin/bash
 
-sprintNumber=4
+sprintNumber=5
 month="march"
 currentCourse="/home/${USER}/webDev/learning/fireship/nextJs/nextfire-app"
+githubUser="Marlrus"
+githubEmail="36910211+Marlrus@users.noreply.github.com"
 
 function coursecurrent() {
   cd "${currentCourse}"
@@ -28,6 +30,11 @@ function repos() {
   cd "/home/${USER}/webDev/personalSites"
   eval "$(ssh-agent -s)"
   ssh-add ~/.ssh/id_ed25519
+}
+
+function personalGithub() {
+  git config --local user.name ${githubUser}
+  git config --local user.email ${githubEmail}
 }
 
 function marlrus() {
