@@ -20,6 +20,25 @@ function currentsprint() {
   cd "/home/${USER}/Dropbox/luca/2021/sprint${sprintNumber}"
 }
 
+function nextRepoPopulate() {
+  echo "Setting up NextJS structure"
+  rm yarn.lock
+  echo "Removed yarn.lock"
+  echo "Installing Dev Packages"
+  npm i -D typescript @types/react @types/node prettier @types/node-sass @types/react-dom
+  echo "Dev Packages Installed"
+  echo "Installing npm packages"
+  npm i sass env-cmd
+  echo "npm packages Installed"
+  echo "Creating root files"
+  touch tsconfig.json prettier.config.js .env.development .env.local .env.production
+  echo "Root files created"
+  echo "Creating directories"
+  mkdir atoms molecules organisms sections hooks contexts services types utils
+  echo "Directories created"
+  echo "Remember to change package.json to use local, dev, and prod scritps"
+}
+
 function lucarepos() {
   cd "/home/${USER}/webDev/luca"
   eval "$(ssh-agent -s)"
