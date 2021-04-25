@@ -1,6 +1,6 @@
 call plug#begin('~/.config/nvim/autoload/plugged')
 
-Plug 'neovim/nvim-lspconfig'
+Plug 'neovim/nvim-lspconfig', 
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'deoplete-plugins/deoplete-lsp' 
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
@@ -26,7 +26,7 @@ Plug 'balanceiskey/vim-framer-syntax'
 Plug 'bluz71/vim-moonfly-colors'
 Plug 'agude/vim-eldar'
 Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
-" Plug 'mbbill/undotree'
+Plug 'mbbill/undotree'
 
 call plug#end()
 
@@ -48,8 +48,8 @@ set guicursor=n-v-c-i:block,r-cr:hor20,o:hor50
 set noerrorbells
 set noswapfile
 set nobackup
-" set undodir=~/.vim/undodir
-" set undofile
+set undodir=~/.vim/undodir
+set undofile
 set incsearch
 set scrolloff=15
 set signcolumn=yes
@@ -78,15 +78,22 @@ nnoremap <leader>pv :FloatermNew --height=0.9 ranger<CR>
 nnoremap <leader>pp :GFiles<CR>
 nnoremap <leader>pf :Files<CR>
 nnoremap <leader>pb :Buffers<CR>
+
+" Git Related
 nnoremap <leader>gv :FloatermNew lazygit<CR>
 
 nnoremap <leader>gb :Git blame<CR>
-" nnoremap <leader>gu :UndotreeToggle<CR>
+nnoremap <leader>pu :UndotreeToggle<CR>
 
-" Git fugitive
+" Git fugitive Merge Conflict
 nnoremap <leader>gs :G<CR>
 nnoremap <leader>gh :diffget //3<CR>
 nnoremap <leader>gu :diffget //2<CR>
+
+nmap <leader>gc <Plug>(GitGutterPreviewHunk)
+nmap <leader>gn <Plug>(GitGutterNextHunk)
+nmap <leader>gN <Plug>(GitGutterPrevHunk)
+nmap <leader>gu <Plug>(GitGutterUndoHunk)
 
 " move line up/down
 nnoremap <A-j> :m .+1<CR>==
@@ -111,10 +118,6 @@ endif
 let g:gitgutter_map_keys = 0
 let g:gitgutter_preview_win_floating = 1
 highlight! link SignColumn LineNr
-
-nmap <leader>gc <Plug>(GitGutterPreviewHunk)
-nmap <leader>gn <Plug>(GitGutterNextHunk)
-nmap <leader>gN <Plug>(GitGutterPrevHunk)
 
 " =========== Completion menu settings and strategy =================
 
