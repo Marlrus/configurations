@@ -102,6 +102,13 @@ nnoremap <A-k> :m .-2<CR>==
 " WhichKey
 nnoremap <silent> <leader> :WhichKey '<Space>'<CR>
 
+" Spell Check related
+nnoremap <leader>es :set spell spelllang=es<CR>
+nnoremap <leader>en :set spell spelllang=en<CR>
+nnoremap <leader>s ]s
+nnoremap <leader>S [s
+nnoremap <leader>z z=
+
 " Floaterm
 let g:floaterm_width=0.9
 let g:floaterm_height=0.9

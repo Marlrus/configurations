@@ -10,6 +10,10 @@ function coursecurrent() {
   cd "${currentCourse}"
 }
 
+function kbb() {
+  cd "/home/${USER}/Dropbox/kbb"
+}
+
 function gitlocal() {
   cd "/home/${USER}/webDev/templatesAndDefaults" 
   vim githublocalconfig
