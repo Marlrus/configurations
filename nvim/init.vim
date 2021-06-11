@@ -18,6 +18,7 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-vividchalk'
+Plug 'bignimbus/pop-punk.vim'
 Plug 'airblade/vim-gitgutter'
 Plug 'vim-airline/vim-airline'
 Plug 'nanotech/jellybeans.vim'
@@ -57,7 +58,9 @@ set updatetime=100
 set termguicolors
 
 
-colorscheme eldar
+" colorscheme eldar
+colorscheme pop-punk
+" colorscheme vividchalk
 
 " ========== Autogroup ===========
 augroup MARLRUS
@@ -105,6 +108,8 @@ nnoremap <silent> <leader> :WhichKey '<Space>'<CR>
 " Spell Check related
 nnoremap <leader>es :set spell spelllang=es<CR>
 nnoremap <leader>en :set spell spelllang=en<CR>
+nnoremap <leader>ee :set spell spelllang=en,es<CR>
+nnoremap <leader>eu :set nospell<CR>
 nnoremap <leader>s ]s
 nnoremap <leader>S [s
 nnoremap <leader>z z=

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-sprintNumber=6
+sprintNumber=8
 month="march"
 currentCourse="/home/${USER}/webDev/learning/fireship/nextJs/nextfire-app"
 githubUser="Marlrus"
@@ -72,7 +72,7 @@ function todo() {
 
 function gratjournal() {
   echo "Write fast!"
-  cd "/home/${USER}/Dropbox/pDevelopment/writing/journaling" && vim q1gratJournaling.md 
+  cd "/home/${USER}/Dropbox/pDevelopment/writing/journaling" && vim q2gratJournaling.md 
 }
 
 function devsshtunel() {
