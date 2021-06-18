@@ -1,10 +1,12 @@
 #!/bin/bash
 
-sprintNumber=8
+sprintNumber=10
 month="march"
 currentCourse="/home/${USER}/webDev/learning/fireship/nextJs/nextfire-app"
 githubUser="Marlrus"
 githubEmail="36910211+Marlrus@users.noreply.github.com"
+gitlabUser="Julian"
+gitlabEmail="julian.franco.f@hyrecar.com"
 
 function coursecurrent() {
   cd "${currentCourse}"
@@ -21,7 +23,7 @@ function gitlocal() {
 
 function currentsprint() {
   echo "Moving very fast!"
-  cd "/home/${USER}/Dropbox/luca/2021/sprint${sprintNumber}"
+  cd "/home/${USER}/Dropbox/hyrecar/sprint${sprintNumber}"
 }
 
 function nextRepoPopulate() {
@@ -49,6 +51,13 @@ function lucarepos() {
   ssh-add ~/.ssh/luca_edu
 }
 
+function hyrecarerepos() {
+  cd "/home/${USER}/webDev/hyrecar"
+  echo "Sourcing scripts..."
+  source "/home/${USER}/webDev/hyrecar/scripts/hyrecarScripts.sh"
+  echo "Scripts sourced"
+}
+
 function repos() {
   cd "/home/${USER}/webDev/personalSites"
   eval "$(ssh-agent -s)"
@@ -58,6 +67,11 @@ function repos() {
 function personalGithub() {
   git config --local user.name ${githubUser}
   git config --local user.email ${githubEmail}
+}
+
+function sethyrecargithub() {
+  git config --local user.name ${gitlabUser}
+  git config --local user.email ${gitlabEmail}
 }
 
 function marlrus() {

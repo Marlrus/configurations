@@ -63,13 +63,15 @@ colorscheme pop-punk
 " colorscheme vividchalk
 
 " ========== Autogroup ===========
-augroup MARLRUS
-" Auto format
-  autocmd!
-  autocmd BufWritePre * Neoformat
-augroup END
+" augroup MARLRUS
+" " Auto format
+"   autocmd!
+"   autocmd BufWritePre * Neoformat
+" augroup END
 
 " =====  Remaps =====
+nnoremap <leader>f :Neoformat<CR>
+xnoremap <leader>f :Neoformat<CR>
 
 nnoremap <leader>h :wincmd h<CR>
 nnoremap <leader>j :wincmd j<CR>
