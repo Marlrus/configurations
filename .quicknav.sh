@@ -1,6 +1,6 @@
 #!/bin/bash
 
-sprintNumber=10
+sprintNumber=12
 month="march"
 currentCourse="/home/${USER}/webDev/learning/fireship/nextJs/nextfire-app"
 githubUser="Marlrus"
@@ -135,3 +135,28 @@ function dotfiles() {
   cd "/home/${USER}/.dotfiles"
 }
 
+function tzlist() {
+  timedatectl list-timezones | cat
+}
+
+# function gotofilelocation() {
+#   IFS=""
+#   FILE_NAME=$1
+#   LIST=$(tree -f -i -a | rg ${FILE_NAME} | awk -v FS=/ ' 
+#   {
+#     out=$2;
+
+#     for(i=3;i<NF;i++){
+#       out=out"/"$i
+#     };
+
+#     print out
+#   }')
+#   ARRAY=($(echo -e $LIST ))
+#   echo Select Option:
+#   for i in "${!ARRAY[@]}"
+#   do
+#     echo $i
+#     echo "${i}) ${ARRAY[$i]}"
+#   done
+# }
