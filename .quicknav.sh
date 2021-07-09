@@ -139,6 +139,17 @@ function tzlist() {
   timedatectl list-timezones | cat
 }
 
+function tohtml() {
+  echo "Type input file"
+  read INPUT
+  echo "Select output file name without .html extension"
+  read FILENAME
+  echo "Select css (retrocss)"
+  read CSS
+
+  pandoc $INPUT -o $FILENAME.html -H ~/markdowncss/$CSS
+}
+
 # function gotofilelocation() {
 #   IFS=""
 #   FILE_NAME=$1
