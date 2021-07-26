@@ -146,6 +146,12 @@ pre > code.diff-highlight.diff-highlight .token.inserted:not(.prefix) {
 	display: inline;
 }
 
+tr,
+th,
+td {
+  border: 1px solid #d79921;
+}
+
 @media print {
   *,
   *:before,

@@ -1,12 +1,13 @@
 #!/bin/bash
 
-sprintNumber=12
+sprintNumber=13
 month="march"
 currentCourse="/home/${USER}/webDev/learning/fireship/nextJs/nextfire-app"
 githubUser="Marlrus"
 githubEmail="36910211+Marlrus@users.noreply.github.com"
 gitlabUser="Julian"
 gitlabEmail="julian.franco.f@hyrecar.com"
+JOURNAL_FILE="q3gratJournaling.md"
 
 function coursecurrent() {
   cd "${currentCourse}"
@@ -86,7 +87,7 @@ function todo() {
 
 function gratjournal() {
   echo "Write fast!"
-  cd "/home/${USER}/Dropbox/pDevelopment/writing/journaling" && vim q2gratJournaling.md 
+  cd "/home/${USER}/Dropbox/pDevelopment/writing/journaling" && vim $JOURNAL_FILE
 }
 
 function devsshtunel() {
@@ -148,6 +149,15 @@ function tohtml() {
   read CSS
 
   pandoc $INPUT -o $FILENAME.html -H ~/markdowncss/$CSS
+}
+
+function printbetweenlines() {
+  echo "Start line"
+  read START
+  echo "End line"
+  read END
+
+  awk '{if(NR >= ${START} && NR <= ${END}) print NR, $0' $1
 }
 
 # function gotofilelocation() {
