@@ -181,3 +181,7 @@ function printbetweenlines() {
 #     echo "${i}) ${ARRAY[$i]}"
 #   done
 # }
+
+function killalldockers() {
+  docker container kill $(docker ps -q)
+}
