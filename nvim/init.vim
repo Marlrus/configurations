@@ -116,6 +116,14 @@ nnoremap <leader>s ]s
 nnoremap <leader>S [s
 nnoremap <leader>z z=
 
+" Macro on visual
+xnoremap @ :<C-u>call ExecuteMacroOverVisualRange()<CR>
+
+function! ExecuteMacroOverVisualRange()
+  echo "@".getcmdline()
+  execute ":'<,'>normal @".nr2char(getchar())
+endfunction
+
 " Floaterm
 let g:floaterm_width=0.9
 let g:floaterm_height=0.9
