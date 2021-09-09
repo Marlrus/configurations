@@ -184,7 +184,7 @@ xmap <c-s>     <Plug>(neosnippet_expand_target)
     }
   end
 
--- eslint related
+-- eslint setup with efm server
 
   local eslint = {
     lintCommand = "eslint_d -f unix --stdin --stdin-filename ${INPUT}",
@@ -215,7 +215,7 @@ xmap <c-s>     <Plug>(neosnippet_expand_target)
     on_attach = function(client)
       client.resolved_capabilities.document_formatting = false
       client.resolved_capabilities.goto_definition = false
-      set_lsp_config(client)
+      -- set_lsp_config(client)
     end,
     root_dir = function()
       if not eslint_config_exists() then
@@ -253,11 +253,16 @@ xmap <c-s>     <Plug>(neosnippet_expand_target)
       update_in_insert = true,
     }
   )
+
+-- Formatter.nvim setup, will find more efficient way
+
+  local fileTypes = {'javascript', 'typescript', 'javascriptreact', 'typescriptreact', 'css', 'json'}
   
-  require('formatter').setup({
+  local formatter = require('formatter')
+
+  formatter.setup({
     filetype = {
       javascript = {
-        -- prettier
         function()
           return {
             exe = "prettier",
@@ -267,7 +272,6 @@ xmap <c-s>     <Plug>(neosnippet_expand_target)
         end
       },
       typescript = {
-        -- prettier
         function()
           return {
             exe = "prettier",
@@ -277,7 +281,6 @@ xmap <c-s>     <Plug>(neosnippet_expand_target)
         end
       },
       javascriptreact = {
-        -- prettier
         function()
           return {
             exe = "prettier",
@@ -287,7 +290,6 @@ xmap <c-s>     <Plug>(neosnippet_expand_target)
         end
       },
       typescriptreact = {
-        -- prettier
         function()
           return {
             exe = "prettier",
@@ -297,7 +299,6 @@ xmap <c-s>     <Plug>(neosnippet_expand_target)
         end
       },
       css = {
-        -- prettier
         function()
           return {
             exe = "prettier",
@@ -307,7 +308,15 @@ xmap <c-s>     <Plug>(neosnippet_expand_target)
         end
       },
       json = {
-        -- prettier
+        function()
+          return {
+            exe = "prettier",
+            args = {"--stdin-filepath", vim.fn.fnameescape(vim.api.nvim_buf_get_name(0)), '--single-quote'},
+            stdin = true
+          }
+        end
+      },
+      markdown = {
         function()
           return {
             exe = "prettier",
@@ -324,5 +333,5 @@ EOF
 nmap <leader>n :lua vim.lsp.diagnostic.goto_next()<CR>
 nmap <leader>N :lua vim.lsp.diagnostic.goto_prev()<CR>
 
-nnoremap <leader>f :Format<CR>
-xnoremap <leader>f :Format<CR>
+nnoremap <leader>f :Neoformat<CR>
+xnoremap <leader>f :Neoformat<CR>
