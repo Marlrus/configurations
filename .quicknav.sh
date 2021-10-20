@@ -1,6 +1,6 @@
 #!/bin/bash
 
-sprintNumber=16
+sprintNumber=19
 month="march"
 currentCourse="/home/${USER}/webDev/learning/fireship/nextJs/nextfire-app"
 githubUser="Marlrus"
@@ -90,17 +90,8 @@ function gratjournal() {
   cd "/home/${USER}/Dropbox/pDevelopment/writing/journaling" && vim $JOURNAL_FILE
 }
 
-function devsshtunel() {
-  cd /home/marlrus/.ssh/ && 
-  sudo ssh -f -N -L 3307:habi-qa-aurora-serverless-cluster.cluster-cauboia6qzrb.us-east-2.rds.amazonaws.com:3306 -i ssh-tunnel-key-QA.pem ubuntu@3.128.162.42
-}
-
 function devgoals() {
   cd "/home/${USER}/webDev" && vim .goals.md
-}
-
-function vimcheatsheet() {
-  cd "/home/${USER}/webDev/vim" && vim cheatSheet.md
 }
 
 function lifebook() {
@@ -110,10 +101,6 @@ function lifebook() {
 
 function viminit() {
   cd "/home/${USER}/.dotfiles/nvim" && vim init.vim
-}
-
-function vimtodo() {
-  cd "/home/${USER}/webDev/vim" && vim todo.md
 }
 
 function logicamorsa() {
@@ -126,10 +113,6 @@ function kittyconfig() {
 
 function snippets() {
   cd "/home/${USER}/.config/nvim/snippets"
-}
-
-function business() {
-  cd "/home/${USER}/Dropbox/sidBusiness"
 }
 
 function dotfiles() {
