@@ -7,10 +7,15 @@ githubUser="Marlrus"
 githubEmail="36910211+Marlrus@users.noreply.github.com"
 gitlabUser="Julian"
 gitlabEmail="julian.franco.f@hyrecar.com"
-JOURNAL_FILE="q3gratJournaling.md"
+JOURNAL_FILE="q4gratJournaling.md"
 
 function coursecurrent() {
   cd "${currentCourse}"
+}
+
+function projectcurrent() {
+  cd ~/webDev/personalSites/warlrus-cli/
+  vim .
 }
 
 function kbb() {

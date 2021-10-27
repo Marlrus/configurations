@@ -10,7 +10,6 @@ Plug 'liuchengxu/vim-which-key'
 Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] }
 Plug 'wookayin/fzf-ripgrep.vim'
 Plug 'sbdchd/neoformat'
-Plug 'mhartington/formatter.nvim'
 Plug 'Shougo/neosnippet.vim'
 Plug 'Shougo/neosnippet-snippets'
 Plug 'jiangmiao/auto-pairs'
@@ -177,7 +176,7 @@ xmap <c-s>     <Plug>(neosnippet_expand_target)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', '<F2>', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
   end
-  local servers = {'jsonls', 'tsserver', 'cssls', 'graphql', 'yamlls', 'bashls', 'vimls', 'terraformls' }
+  local servers = {'jsonls', 'tsserver', 'cssls', 'graphql', 'yamlls', 'bashls', 'vimls', 'html'}
   for _, lsp in ipairs(servers) do
     nvim_lsp[lsp].setup {
       on_attach = on_attach,
@@ -253,80 +252,6 @@ xmap <c-s>     <Plug>(neosnippet_expand_target)
       update_in_insert = true,
     }
   )
-
--- Formatter.nvim setup, will find more efficient way
-
-  local fileTypes = {'javascript', 'typescript', 'javascriptreact', 'typescriptreact', 'css', 'json'}
-  
-  local formatter = require('formatter')
-
-  formatter.setup({
-    filetype = {
-      javascript = {
-        function()
-          return {
-            exe = "prettier",
-            args = {"--stdin-filepath", vim.fn.fnameescape(vim.api.nvim_buf_get_name(0)), '--single-quote'},
-            stdin = true
-          }
-        end
-      },
-      typescript = {
-        function()
-          return {
-            exe = "prettier",
-            args = {"--stdin-filepath", vim.fn.fnameescape(vim.api.nvim_buf_get_name(0)), '--single-quote'},
-            stdin = true
-          }
-        end
-      },
-      javascriptreact = {
-        function()
-          return {
-            exe = "prettier",
-            args = {"--stdin-filepath", vim.fn.fnameescape(vim.api.nvim_buf_get_name(0)), '--single-quote'},
-            stdin = true
-          }
-        end
-      },
-      typescriptreact = {
-        function()
-          return {
-            exe = "prettier",
-            args = {"--stdin-filepath", vim.fn.fnameescape(vim.api.nvim_buf_get_name(0)), '--single-quote'},
-            stdin = true
-          }
-        end
-      },
-      css = {
-        function()
-          return {
-            exe = "prettier",
-            args = {"--stdin-filepath", vim.fn.fnameescape(vim.api.nvim_buf_get_name(0)), '--single-quote'},
-            stdin = true
-          }
-        end
-      },
-      json = {
-        function()
-          return {
-            exe = "prettier",
-            args = {"--stdin-filepath", vim.fn.fnameescape(vim.api.nvim_buf_get_name(0)), '--single-quote'},
-            stdin = true
-          }
-        end
-      },
-      markdown = {
-        function()
-          return {
-            exe = "prettier",
-            args = {"--stdin-filepath", vim.fn.fnameescape(vim.api.nvim_buf_get_name(0)), '--single-quote'},
-            stdin = true
-          }
-        end
-      },
-    }
-  })
 EOF
 
 "LSP diagnostics Keybinds
