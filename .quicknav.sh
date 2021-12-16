@@ -1,6 +1,6 @@
 #!/bin/bash
 
-sprintNumber=19
+sprintNumber=23
 month="march"
 currentCourse="/home/${USER}/webDev/learning/fireship/nextJs/nextfire-app"
 githubUser="Marlrus"

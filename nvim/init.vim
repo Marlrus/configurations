@@ -56,7 +56,8 @@ set scrolloff=15
 set signcolumn=yes
 set updatetime=100
 set termguicolors
-
+" set colorcolumn=100
+" highlight ColorColumn ctermbg=238
 
 " colorscheme eldar
 colorscheme pop-punk
@@ -255,8 +256,8 @@ xmap <c-s>     <Plug>(neosnippet_expand_target)
 EOF
 
 "LSP diagnostics Keybinds
-nmap <leader>n :lua vim.lsp.diagnostic.goto_next()<CR>
-nmap <leader>N :lua vim.lsp.diagnostic.goto_prev()<CR>
+nmap <leader>n :lua vim.diagnostic.goto_next()<CR>
+nmap <leader>N :lua vim.diagnostic.goto_prev()<CR>
 
 nnoremap <leader>f :Neoformat<CR>
 xnoremap <leader>f :Neoformat<CR>
