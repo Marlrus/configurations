@@ -126,6 +126,7 @@ endfunction
 let g:floaterm_width=0.9
 let g:floaterm_height=0.9
 let g:floaterm_autoclose=1
+let g:floaterm_opener='edit'
 
 " RG settings
 if executable('rg')
