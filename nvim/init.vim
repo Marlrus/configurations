@@ -20,7 +20,6 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-vividchalk'
 Plug 'bignimbus/pop-punk.vim'
 Plug 'airblade/vim-gitgutter'
-Plug 'vim-airline/vim-airline'
 Plug 'nanotech/jellybeans.vim'
 Plug 'morhetz/gruvbox'
 Plug 'balanceiskey/vim-framer-syntax'
@@ -33,6 +32,7 @@ call plug#end()
 
 syntax on
 
+set mouse=
 let mapleader = " "
 set pyx=3
 set clipboard=unnamedplus
@@ -59,10 +59,14 @@ set termguicolors
 " set colorcolumn=100
 " highlight ColorColumn ctermbg=238
 
-" colorscheme eldar
 colorscheme pop-punk
+" colorscheme eldar
 " colorscheme vividchalk
+" colorscheme jellybeans
+" colorscheme gruvbox
 
+lua vim.o.ls = 0
+lua vim.o.ch = 0
 " ========== Autogroup ===========
 " augroup MARLRUS
 " " Auto format
