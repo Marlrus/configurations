@@ -86,6 +86,10 @@ nnoremap <leader>pp :GFiles<CR>
 nnoremap <leader>pf :Files<CR>
 nnoremap <leader>pb :Buffers<CR>
 
+" Floaterm Related
+nnoremap <leader>pt :FloatermNew<CR>
+nnoremap <leader>pc :FloatermNew --cwd %:h<CR>
+
 " Git Related
 nnoremap <leader>gv :FloatermNew lazygit<CR>
 
