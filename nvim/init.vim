@@ -65,8 +65,8 @@ colorscheme pop-punk
 " colorscheme jellybeans
 " colorscheme gruvbox
 
-lua vim.o.ls = 0
-lua vim.o.ch = 0
+" lua vim.o.ls = 0
+" lua vim.o.ch = 0
 " ========== Autogroup ===========
 " augroup MARLRUS
 " " Auto format
@@ -182,7 +182,7 @@ xmap <c-s>     <Plug>(neosnippet_expand_target)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', '<F2>', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
   end
-  local servers = {'jsonls', 'tsserver', 'cssls', 'graphql', 'yamlls', 'bashls', 'vimls', 'html'}
+  local servers = {'jsonls', 'tsserver', 'cssls', 'graphql', 'yamlls', 'bashls', 'vimls', 'html', 'terraformls'}
   for _, lsp in ipairs(servers) do
     nvim_lsp[lsp].setup {
       on_attach = on_attach,
