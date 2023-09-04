@@ -6,6 +6,8 @@ This is a repo to hold my configuration in a single place and save a history of 
 
 I created a directory to hold the configuration files where I created a git repo. The files live here but use a **symlink** to their respective location in order to work for their program. I will eventually move all my configuration files here and create scripts to instanciate them easily should anything happen to them.
 
+To run this, download the repository as `/home/${USER}/.dotfiles`.
+
 ### Individual files
 
 1. Relocate to repo directory
