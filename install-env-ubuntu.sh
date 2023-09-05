@@ -92,12 +92,11 @@ source /home/${USER}/.bashrc
 nvm install --lts
 echo "===================== NVM INSTALLED ====================="
 
-npm i -g vscode-langservers-extracted
-npm install -g typescript typescript-language-server
-npm install -g graphql-language-service-cli
-npm i -g yaml-language-server
-npm i -g bash-language-server
-npm install -g vim-language-server
+python3 -m pip install keep_presence
+source /home/${USER}/profile
+
+chmod +x ./install-lsp-servers.sh
+./install-lsp-servers.sh
 
 wget -O- https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
 gpg --no-default-keyring --keyring /usr/share/keyrings/hashicorp-archive-keyring.gpg --fingerprint
