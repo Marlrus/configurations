@@ -97,6 +97,7 @@ nvm install --lts
 echo "===================== NVM INSTALLED ====================="
 
 sudo snap install keep-presence
+npm i -g prettier
 
 chmod +x ./install-lsp-servers.sh
 ./install-lsp-servers.sh
