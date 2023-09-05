@@ -79,6 +79,10 @@ echo "===================== LIBFUSE INSTALLED ====================="
 sudo apt install xclip -y
 echo "===================== XCLIP INSTALLED ====================="
 
+sudo apt install neofetch -y
+echo "===================== NEOFETCH INSTALLED ====================="
+neofetch
+
 chmod +x ./install-nvim-latest.sh
 ./install-nvim-latest.sh
 source ~/.bashrc
