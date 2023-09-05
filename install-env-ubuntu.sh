@@ -20,7 +20,8 @@ sudo apt install google-chrome-stable -y
 echo "===================== GOOGLE CHROME INSTALLED ====================="
 
 sudo apt install ranger -y
-echo "===================== RANGER INSTALLED ====================="
+ln -s /home/marlrus/.dotfiles/rc.conf /home/marlrus/.config/ranger/
+echo "===================== RANGER INSTALLED AND CONFIGURED ====================="
 
 sudo apt install ripgrep -y
 echo "===================== RIPGREP INSTALLED ====================="
@@ -75,6 +76,9 @@ echo "===================== BASHPROMPT CONFIGURED ====================="
 sudo apt install libfuse2 -y
 echo "===================== LIBFUSE INSTALLED ====================="
 
+sudo apt install xclip -y
+echo "===================== XCLIP INSTALLED ====================="
+
 chmod +x ./install-nvim-latest.sh
 ./install-nvim-latest.sh
 source ~/.bashrc
@@ -92,8 +96,7 @@ source /home/${USER}/.bashrc
 nvm install --lts
 echo "===================== NVM INSTALLED ====================="
 
-python3 -m pip install keep_presence
-source /home/${USER}/profile
+sudo snap install keep-presence
 
 chmod +x ./install-lsp-servers.sh
 ./install-lsp-servers.sh
