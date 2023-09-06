@@ -1,46 +1,47 @@
 #!/bin/bash
 
+HOME_PATH="/home/${USER}"
+
 function err_exit(){
   echo $1
   echo "Restoring previous NVIM version"
-  cp ~/nvim.appimage-prev ~/nvim.appimage
-  chmod +x ~/nvim.appimage
+  cp ${HOME_PATH}/nvim.appimage-prev ${HOME_PATH}/nvim.appimage
+  chmod +x ${HOME_PATH}/nvim.appimage
   exit 1
 }
 
 # Create backup
-if [ -f ~/nvim.appimage ]; then
-  if [ -f ~/nvim.appimage-prev ]; then
-    mv ~/nvim.appimage ~/nvim.appimage-prev
+if [ -f ${HOME_PATH}/nvim.appimage ]; then
+  if [ -f ${HOME_PATH}/nvim.appimage-prev ]; then
+    mv ${HOME_PATH}/nvim.appimage ${HOME_PATH}/nvim.appimage-prev
   fi
-  rm ~/nvim.appimage
+  rm ${HOME_PATH}/nvim.appimage
 fi
 
-wget -q --show-progress https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage -P ~/ &&
+wget -q --show-progress https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage -P ${HOME_PATH}/ &&
 echo "Nvim latest dowloaded to home directory." ||
 err_exit "Error dowloading NVIM"
 
-wget -q --show-progress https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage.sha256sum -P ~/ &&
+wget -q --show-progress https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage.sha256sum -P ${HOME_PATH}/ &&
 echo "Downloading Checksum" ||
 err_exit "Error dowloading NVIM Checksum"
 
-if [ -f ~/nvim.appimage ] && [ -f ~/nvim.appimage.sha256sum ]; then
+if [ -f ${HOME_PATH}/nvim.appimage ] && [ -f ${HOME_PATH}/nvim.appimage.sha256sum ]; then
   echo "Verifying checksum"
   # In case checksum changes
-  CHECKSUM=$(awk '{print $1}' ~/nvim.appimage.sha256sum)
-  if [[ $(sha256sum ~/nvim.appimage | awk '{print $1}') != $CHECKSUM ]]; then
+  CHECKSUM=$(awk '{print $1}' ${HOME_PATH}/nvim.appimage.sha256sum)
+  if [[ $(sha256sum ${HOME_PATH}/nvim.appimage | awk '{print $1}') != $CHECKSUM ]]; then
     err_exit "Checksum not matching"
   else
     echo "Checksum matches."
   fi
-  rm ~/nvim.appimage.sha256sum
-  chmod +x ~/nvim.appimage
+  rm ${HOME_PATH}/nvim.appimage.sha256sum
+  chmod +x ${HOME_PATH}/nvim.appimage
   echo "Execution permissions added to nvim"
-  if ! command grep -qc  '/nvim.appimage' ~/.bashrc; then
-    echo "Appending nvim and vim alias to bash .bashrc"
-    printf '\nalias vim="/home/${USER}/nvim.appimage"\n' >> ~/.bashrc
-    echo 'alias nvim="/home/${USER}/nvim.appimage"' >> ~/.bashrc
-    source ~/.bashrc
+  if ! command grep -qc  '/nvim.appimage' ${HOME_PATH}/.bashrc; then
+    echo "Appending nvim alias to bash .bashrc"
+    printf '\nalias nvim="/home/${USER}/nvim.appimage"\n' >> ${HOME_PATH}/.bashrc
+    source ${HOME_PATH}/.bashrc
   else
     echo "alias for nvim appimage found."
   fi
