@@ -2,6 +2,29 @@
 
 HOME_PATH="/home/${USER}"
 
+if [ -x "$(command -v python3 -V)" ]; then
+  echo "Python 3 found."
+else
+  echo "Python 3 not found, please install"
+  exit 1
+fi
+
+if [ -x "$(command -v pip -V)" ]; then
+  echo "Pip found."
+else
+  echo "Pip not found, installing pip."
+  sudo apt install python3-pip -y
+  echo "===================== PIP INSTALLED ====================="
+fi
+
+if [ $(pip list | rg "pynvim" | wc -l) = 1 ]; then
+  echo "Pynvim found."
+else
+  echo "Pynvim not found, installing pynvim."
+  python3 -m pip install --user --upgrade pynvim
+  echo "===================== PYNVIM INSTALLED ====================="
+fi
+
 function err_exit(){
   echo $1
   echo "Restoring previous NVIM version"
@@ -48,3 +71,7 @@ if [ -f ${HOME_PATH}/nvim.appimage ] && [ -f ${HOME_PATH}/nvim.appimage.sha256su
 else
   err_exit "NVIM app image not found" 
 fi
+
+echo "===================== NVIM INSTALLED ====================="
+printf "\n===================== CHECKING NVIM VERSION =====================\n\n"
+${HOME_PATH}/nvim.appimage -v

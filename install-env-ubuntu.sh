@@ -1,5 +1,9 @@
 #!/bin/bash
 
+HOME_PATH="/home/${USER}"
+GITHUB_EMAIL="36910211+Marlrus@users.noreply.github.com"
+GITHUB_NAME="Marlrus"
+
 sudo apt update
 sudo apt upgrade
 echo "===================== SYSTEM BASE UPDATED ====================="
@@ -12,8 +16,8 @@ echo "===================== CURL INSTALLED ====================="
 sudo apt install git-all -y
 echo "===================== GIT INSTALLED ====================="
 
-git config --global user.email "36910211+Marlrus@users.noreply.github.com"
-git config --global user.name "Marlrus"
+git config --global user.email ${GITHUB_EMAIL}
+git config --global user.name ${GITHUB_NAME}
 
 wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add - 
 sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
@@ -22,7 +26,7 @@ sudo apt install google-chrome-stable -y
 echo "===================== GOOGLE CHROME INSTALLED ====================="
 
 sudo apt install ranger -y
-ln -s /home/${USER}/.dotfiles/rc.conf /home/${USER}/.config/ranger/
+ln -s ${HOME_PATH}/.dotfiles/rc.conf ${HOME_PATH}/.config/ranger/
 echo "===================== RANGER INSTALLED AND CONFIGURED ====================="
 
 sudo apt install ripgrep -y
@@ -56,9 +60,9 @@ echo "===================== LAZYGIT INSTALLED ====================="
 ./install-update-kitty.sh
 echo "===================== KITTY INSTALLED AND CONFIGURED ====================="
 
-ln -s /home/${USER}/.dotfiles/.bashprompt /home/${USER}/
-echo "source /home/${USER}/.bashprompt" >> /home/${USER}/.bashrc
-source /home/${USER}/.bashrc
+ln -s ${HOME_PATH}/.dotfiles/.bashprompt ${HOME_PATH}/
+echo "source ${HOME_PATH}/.bashprompt" >> ${HOME_PATH}/.bashrc
+source ${HOME_PATH}/.bashrc
 echo "===================== BASHPROMPT CONFIGURED ====================="
 
 sudo apt install libfuse2 -y
@@ -79,11 +83,13 @@ curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 echo "===================== VIM PLUG INSTALLED ====================="
 
-ln -s /home/${USER}/.dotfiles/nvim/ /home/${USER}/.config
+ln -s ${HOME_PATH}/.dotfiles/nvim/ ${HOME_PATH}/.config
 echo "===================== NVIM CONFIG UPDATED IN HOME ====================="
 
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash
-source /home/${USER}/.bashrc
+source ${HOME_PATH}/.nvm/nvm.sh
+source ${HOME_PATH}/.profile
+source ${HOME_PATH}/.bashrc
 nvm install --lts
 echo "===================== NVM INSTALLED ====================="
 
