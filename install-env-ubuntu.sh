@@ -50,7 +50,7 @@ sudo usermod -aG docker $USER
 newgrp docker
 echo "===================== DOCKER CONFIGURED ====================="
 
-chomd +x ./install-update-lazygit.sh
+chmod +x ./install-update-lazygit.sh
 ./install-update-lazygit.sh
 echo "===================== LAZYGIT INSTALLED ====================="
 
