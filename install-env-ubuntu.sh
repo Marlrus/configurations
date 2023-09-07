@@ -1,10 +1,10 @@
 #!/bin/bash
 
-CONFIG_URL="/home/${USER}/.config"
-
 sudo apt update
 sudo apt upgrade
 echo "===================== SYSTEM BASE UPDATED ====================="
+
+chmod +x *.sh
 
 sudo apt install curl -y
 echo "===================== CURL INSTALLED ====================="
@@ -50,11 +50,9 @@ sudo usermod -aG docker $USER
 newgrp docker
 echo "===================== DOCKER CONFIGURED ====================="
 
-chmod +x ./install-update-lazygit.sh
 ./install-update-lazygit.sh
 echo "===================== LAZYGIT INSTALLED ====================="
 
-chmod +x ./install-update-kitty.sh
 ./install-update-kitty.sh
 echo "===================== KITTY INSTALLED AND CONFIGURED ====================="
 
@@ -73,7 +71,6 @@ sudo apt install neofetch -y
 echo "===================== NEOFETCH INSTALLED ====================="
 neofetch
 
-chmod +x ./install-nvim-latest.sh
 ./install-nvim-latest.sh
 source ~/.bashrc
 echo "===================== NVIM LATEST INSTALLED ====================="
@@ -93,13 +90,10 @@ echo "===================== NVM INSTALLED ====================="
 npm i -g prettier
 echo "===================== PRETTIER INSTALLED ====================="
 
-chmod +x ./install-lsp-servers.sh
 ./install-npm-lsp-servers.sh
 
-chmod +x ./install-terraform-ls-lsp.sh
 ./install-terraform-ls-lsp.sh
 
-chmod +x ./install-lsp-efm.sh
 ./install-lsp-terraform-ls.sh
 
 echo "===================== NVIM LSPS INSTALLED ====================="
