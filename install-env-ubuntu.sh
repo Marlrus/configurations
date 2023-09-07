@@ -20,7 +20,7 @@ sudo apt install google-chrome-stable -y
 echo "===================== GOOGLE CHROME INSTALLED ====================="
 
 sudo apt install ranger -y
-ln -s /home/marlrus/.dotfiles/rc.conf /home/marlrus/.config/ranger/
+ln -s /home/${USER}/.dotfiles/rc.conf /home/${USER}/.config/ranger/
 echo "===================== RANGER INSTALLED AND CONFIGURED ====================="
 
 sudo apt install ripgrep -y
@@ -100,17 +100,18 @@ source /home/${USER}/.bashrc
 nvm install --lts
 echo "===================== NVM INSTALLED ====================="
 
-sudo snap install keep-presence
 npm i -g prettier
+echo "===================== PRETTIER INSTALLED ====================="
 
 chmod +x ./install-lsp-servers.sh
-./install-lsp-servers.sh
+./install-npm-lsp-servers.sh
 
-wget -O- https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
-gpg --no-default-keyring --keyring /usr/share/keyrings/hashicorp-archive-keyring.gpg --fingerprint
-echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
-sudo apt update
-sudo apt install terraform-ls
+chmod +x ./install-terraform-ls-lsp.sh
+./install-terraform-ls-lsp.sh
+
+chmod +x ./install-lsp-efm.sh
+./install-lsp-terraform-ls.sh
+
 echo "===================== NVIM LSPS INSTALLED ====================="
 
 echo "Please run nvim and run the command :PlugInstall to get all of the packages installed in the nvim env"
