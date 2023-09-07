@@ -29,3 +29,12 @@ else
   echo "Setting Kitty as default terminal."
   sudo update-alternatives --install /usr/bin/x-terminal-emulator x-terminal-emulator /usr/bin/kitty 50
 fi
+
+# Set Kitty Configuration
+if [ -f ${HOME_PATH}/.config/kitty/kitty.conf ]; then
+  echo "Kitty configuration found."
+else
+  echo "Kitty configuration not found. Adding kitty.conf"
+  mkdir ${CONFIG_URL}/kitty
+  cp ./kitty.conf ${CONFIG_URL}/kitty
+fi

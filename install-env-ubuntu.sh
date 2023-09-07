@@ -57,11 +57,7 @@ echo "===================== LAZYGIT INSTALLED ====================="
 
 chmod +x ./install-update-kitty.sh
 ./install-update-kitty.sh
-echo "===================== KITTY INSTALLED ====================="
-
-mkdir ${CONFIG_URL}/kitty
-cp ./kitty.conf ${CONFIG_URL}/kitty
-echo "===================== KITTY CONFIGURED ====================="
+echo "===================== KITTY INSTALLED AND CONFIGURED ====================="
 
 ln -s /home/${USER}/.dotfiles/.bashprompt /home/${USER}/
 echo "source /home/${USER}/.bashprompt" >> /home/${USER}/.bashrc
