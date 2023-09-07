@@ -1,3 +1,5 @@
+#!/bin/bash
+
 CONFIG_URL="/home/${USER}/.config"
 
 sudo apt update
@@ -48,11 +50,8 @@ sudo usermod -aG docker $USER
 newgrp docker
 echo "===================== DOCKER CONFIGURED ====================="
 
-LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | grep -Po '"tag_name": "v\K[^"]*')
-curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
-tar xf lazygit.tar.gz lazygit
-sudo install lazygit /usr/local/bin
-rm lazygit*
+chomd +x ./install-update-lazygit.sh
+./install-update-lazygit.sh
 echo "===================== LAZYGIT INSTALLED ====================="
 
 chmod +x ./install-update-kitty.sh

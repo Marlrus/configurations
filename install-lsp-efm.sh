@@ -1,3 +1,5 @@
+#!/bin/bash
+
 HOME_PATH="/home/${USER}"
 
 sudo apt install golang-go -y

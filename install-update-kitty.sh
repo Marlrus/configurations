@@ -1,3 +1,5 @@
+#!/bin/bash
+
 HOME_PATH="/home/${USER}"
 
 curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin
