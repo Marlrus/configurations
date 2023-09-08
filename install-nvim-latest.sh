@@ -1,6 +1,8 @@
 #!/bin/bash
 
 HOME_PATH="/home/${USER}"
+GREEN="\033[0;32m"
+NO_COLOR="\033[0m"
 
 if [ -x "$(command -v python3 -V)" ]; then
   echo "Python 3 found."
@@ -14,7 +16,7 @@ if [ -x "$(command -v pip -V)" ]; then
 else
   echo "Pip not found, installing pip."
   sudo apt install python3-pip -y
-  echo "===================== PIP INSTALLED ====================="
+  printf "${GREEN}===================== PIP INSTALLED =====================${NO_COLOR}\n\n"
 fi
 
 if [ $(pip list | rg "pynvim" | wc -l) = 1 ]; then
@@ -22,7 +24,7 @@ if [ $(pip list | rg "pynvim" | wc -l) = 1 ]; then
 else
   echo "Pynvim not found, installing pynvim."
   python3 -m pip install --user --upgrade pynvim
-  echo "===================== PYNVIM INSTALLED ====================="
+  printf "${GREEN}===================== PYNVIM INSTALLED =====================${NO_COLOR}\n\n"
 fi
 
 function err_exit(){
@@ -72,6 +74,6 @@ else
   err_exit "NVIM app image not found" 
 fi
 
-echo "===================== NVIM INSTALLED ====================="
-printf "\n===================== CHECKING NVIM VERSION =====================\n\n"
+printf "${GREEN}===================== NVIM INSTALLED =====================${NO_COLOR}\n\n"
+printf "${GREEN}\n===================== CHECKING NVIM VERSION =====================${NO_COLOR}\n\n"
 ${HOME_PATH}/nvim.appimage -v

@@ -1,9 +1,11 @@
 #!/bin/bash
 
 HOME_PATH="/home/${USER}"
+GREEN="\033[0;32m"
+NO_COLOR="\033[0m"
 
 sudo apt install golang-go -y
-echo "===================== GOLANG INSTALLED ====================="
+printf "${GREEN}===================== GOLANG INSTALLED =====================${NO_COLOR}\n\n"
 
 if ! command grep -qc  '/go/bin' ${HOME_PATH}/.profile; then
   echo "Adding Path for go in .profile"
@@ -15,4 +17,4 @@ else
 fi
 
 go install github.com/mattn/efm-langserver@latest
-echo "===================== EFM LSP INSTALLED ====================="
+printf "${GREEN}===================== EFM LSP INSTALLED =====================${NO_COLOR}\n\n"

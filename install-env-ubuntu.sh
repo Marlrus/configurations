@@ -3,18 +3,20 @@
 HOME_PATH="/home/${USER}"
 GITHUB_EMAIL="36910211+Marlrus@users.noreply.github.com"
 GITHUB_NAME="Marlrus"
+GREEN="\033[0;32m"
+NO_COLOR="\033[0m"
 
 sudo apt update
 sudo apt upgrade
-echo "===================== SYSTEM BASE UPDATED ====================="
+printf "${GREEN}===================== SYSTEM BASE UPDATED =====================${NO_COLOR}\n\n"
 
 chmod +x *.sh
 
 sudo apt install curl -y
-echo "===================== CURL INSTALLED ====================="
+printf "${GREEN}===================== CURL INSTALLED =====================${NO_COLOR}\n\n"
 
 sudo apt install git-all -y
-echo "===================== GIT INSTALLED ====================="
+printf "${GREEN}===================== GIT INSTALLED =====================${NO_COLOR}\n\n"
 
 git config --global user.email ${GITHUB_EMAIL}
 git config --global user.name ${GITHUB_NAME}
@@ -23,20 +25,20 @@ wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-ke
 sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
 sudo apt update
 sudo apt install google-chrome-stable -y
-echo "===================== GOOGLE CHROME INSTALLED ====================="
+printf "${GREEN}===================== GOOGLE CHROME INSTALLED =====================${NO_COLOR}\n\n"
 
 sudo apt install ranger -y
 ln -s ${HOME_PATH}/.dotfiles/rc.conf ${HOME_PATH}/.config/ranger/
-echo "===================== RANGER INSTALLED AND CONFIGURED ====================="
+printf "${GREEN}===================== RANGER INSTALLED AND CONFIGURED =====================${NO_COLOR}\n\n"
 
 sudo apt install ripgrep -y
-echo "===================== RIPGREP INSTALLED ====================="
+printf "${GREEN}===================== RIPGREP INSTALLED =====================${NO_COLOR}\n\n"
 
 sudo apt install python3-pip -y
-echo "===================== PIP INSTALLED ====================="
+printf "${GREEN}===================== PIP INSTALLED =====================${NO_COLOR}\n\n"
 
 python3 -m pip install --user --upgrade pynvim
-echo "===================== PYNVIM INSTALLED ====================="
+printf "${GREEN}===================== PYNVIM INSTALLED =====================${NO_COLOR}\n\n"
 
 sudo install -m 0755 -d /etc/apt/keyrings
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
@@ -46,58 +48,58 @@ echo \
   "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | \
   sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 sudo apt update
-echo "===================== DOCKER INSTALLED ====================="
+printf "${GREEN}===================== DOCKER INSTALLED =====================${NO_COLOR}\n\n"
 
 ./install-dbeaver.sh
-echo "===================== DBEAVER INSTALLED ====================="
+printf "${GREEN}===================== DBEAVER INSTALLED =====================${NO_COLOR}\n\n"
 
 sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
 sudo groupadd docker
 sudo usermod -aG docker $USER
 newgrp docker
-echo "===================== DOCKER CONFIGURED ====================="
+printf "${GREEN}===================== DOCKER CONFIGURED =====================${NO_COLOR}\n\n"
 
 ./install-update-lazygit.sh
-echo "===================== LAZYGIT INSTALLED ====================="
+printf "${GREEN}===================== LAZYGIT INSTALLED =====================${NO_COLOR}\n\n"
 
 ./install-update-kitty.sh
-echo "===================== KITTY INSTALLED AND CONFIGURED ====================="
+printf "${GREEN}===================== KITTY INSTALLED AND CONFIGURED =====================${NO_COLOR}\n\n"
 
 ln -s ${HOME_PATH}/.dotfiles/.bashprompt ${HOME_PATH}/
 echo "source ${HOME_PATH}/.bashprompt" >> ${HOME_PATH}/.bashrc
 source ${HOME_PATH}/.bashrc
-echo "===================== BASHPROMPT CONFIGURED ====================="
+printf "${GREEN}===================== BASHPROMPT CONFIGURED =====================${NO_COLOR}\n\n"
 
 sudo apt install libfuse2 -y
-echo "===================== LIBFUSE INSTALLED ====================="
+printf "${GREEN}===================== LIBFUSE INSTALLED =====================${NO_COLOR}\n\n"
 
 sudo apt install xclip -y
-echo "===================== XCLIP INSTALLED ====================="
+printf "${GREEN}===================== XCLIP INSTALLED =====================${NO_COLOR}\n\n"
 
 sudo apt install neofetch -y
-echo "===================== NEOFETCH INSTALLED ====================="
+printf "${GREEN}===================== NEOFETCH INSTALLED =====================${NO_COLOR}\n\n"
 neofetch
 
 ./install-nvim-latest.sh
 source ~/.bashrc
-echo "===================== NVIM LATEST INSTALLED ====================="
+printf "${GREEN}===================== NVIM LATEST INSTALLED =====================${NO_COLOR}\n\n"
 
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-echo "===================== VIM PLUG INSTALLED ====================="
+printf "${GREEN}===================== VIM PLUG INSTALLED =====================${NO_COLOR}\n\n"
 
 ln -s ${HOME_PATH}/.dotfiles/nvim/ ${HOME_PATH}/.config
-echo "===================== NVIM CONFIG UPDATED IN HOME ====================="
+printf "${GREEN}===================== NVIM CONFIG UPDATED IN HOME =====================${NO_COLOR}\n\n"
 
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash
 source ${HOME_PATH}/.nvm/nvm.sh
 source ${HOME_PATH}/.profile
 source ${HOME_PATH}/.bashrc
 nvm install --lts
-echo "===================== NVM INSTALLED ====================="
+printf "${GREEN}===================== NVM INSTALLED =====================${NO_COLOR}\n\n"
 
 npm i -g prettier
-echo "===================== PRETTIER INSTALLED ====================="
+printf "${GREEN}===================== PRETTIER INSTALLED =====================${NO_COLOR}\n\n"
 
 ./install-npm-lsp-servers.sh
 
@@ -105,6 +107,6 @@ echo "===================== PRETTIER INSTALLED ====================="
 
 ./install-lsp-terraform-ls.sh
 
-echo "===================== NVIM LSPS INSTALLED ====================="
+printf "${GREEN}===================== NVIM LSPS INSTALLED =====================${NO_COLOR}\n\n"
 
-echo "Please run nvim and run the command :PlugInstall to get all of the packages installed in the nvim env"
+printf "${GREEN}Please run nvim and run the command :PlugInstall to get all of the packages installed in the nvim env${NO_COLOR}\n\n"
