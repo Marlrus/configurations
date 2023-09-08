@@ -1,8 +1,7 @@
 #!/bin/bash
 
-HOME_PATH="/home/${USER}"
-GREEN="\033[0;32m"
-NO_COLOR="\033[0m"
+# IMPORTS
+source ./modules.sh
 
 sudo apt install golang-go -y
 printf "${GREEN}===================== GOLANG INSTALLED =====================${NO_COLOR}\n\n"

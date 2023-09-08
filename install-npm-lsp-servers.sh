@@ -1,7 +1,7 @@
 #!/bin/bash
 
-GREEN="\033[0;32m"
-NO_COLOR="\033[0m"
+# IMPORTS
+source ./modules.sh
 
 npm i -g vscode-langservers-extracted
 npm install -g typescript typescript-language-server

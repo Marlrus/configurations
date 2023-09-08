@@ -1,8 +1,10 @@
 #!/bin/bash
 
-HOME_PATH="/home/${USER}"
-GREEN="\033[0;32m"
-NO_COLOR="\033[0m"
+# IMPORTS
+source ./modules.sh
+
+echo ${HOME_PATH}
+exit 0
 
 curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin
 
@@ -43,4 +45,4 @@ else
   cp ./kitty.conf ${CONFIG_URL}/kitty
 fi
 
-printf "${GREEN}===================== KITTY INSTALLED/UPDATED =====================${NO_COLOR}\n\n"
+FN_PRINT_GREEN "===================== KITTY INSTALLED/UPDATED ====================="

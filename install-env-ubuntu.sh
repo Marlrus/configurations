@@ -1,10 +1,7 @@
 #!/bin/bash
 
-HOME_PATH="/home/${USER}"
-GITHUB_EMAIL="36910211+Marlrus@users.noreply.github.com"
-GITHUB_NAME="Marlrus"
-GREEN="\033[0;32m"
-NO_COLOR="\033[0m"
+# IMPORTS
+source ./modules.sh
 
 sudo apt update
 sudo apt upgrade

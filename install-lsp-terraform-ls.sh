@@ -1,7 +1,7 @@
 #!/bin/bash
 
-GREEN="\033[0;32m"
-NO_COLOR="\033[0m"
+# IMPORTS
+source ./modules.sh
 
 wget -O- https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
 gpg --no-default-keyring --keyring /usr/share/keyrings/hashicorp-archive-keyring.gpg --fingerprint

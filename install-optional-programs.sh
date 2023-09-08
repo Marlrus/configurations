@@ -1,7 +1,7 @@
 #!/bin/bash
 
-GREEN="\033[0;32m"
-NO_COLOR="\033[0m"
+# IMPORTS
+source ./modules.sh
 
 sudo snap install keep-presence
 printf "${GREEN}===================== KEEP PRESENCE INSTALLED =====================${NO_COLOR}\n\n"
