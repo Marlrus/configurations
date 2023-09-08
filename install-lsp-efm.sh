@@ -3,8 +3,10 @@
 # IMPORTS
 source ./modules.sh
 
+FN_PRINT_GREEN_BANNER "EFM LSP INSTALLATION BEGINNING"
+
 sudo apt install golang-go -y
-printf "${GREEN}===================== GOLANG INSTALLED =====================${NO_COLOR}\n\n"
+FN_PRINT_GREEN_BANNER "GOLANG INSTALLED"
 
 if ! command grep -qc  '/go/bin' ${HOME_PATH}/.profile; then
   echo "Adding Path for go in .profile"
@@ -16,4 +18,4 @@ else
 fi
 
 go install github.com/mattn/efm-langserver@latest
-printf "${GREEN}===================== EFM LSP INSTALLED =====================${NO_COLOR}\n\n"
+FN_PRINT_GREEN_BANNER "EFM LSP INSTALLED"

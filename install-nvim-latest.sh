@@ -3,6 +3,8 @@
 # IMPORTS
 source ./modules.sh
 
+FN_PRINT_GREEN_BANNER "NVIM INSTALLATION/UPDATE BEGINNING"
+
 if [ -x "$(command -v python3 -V)" ]; then
   echo "Python 3 found."
 else
@@ -15,7 +17,7 @@ if [ -x "$(command -v pip -V)" ]; then
 else
   echo "Pip not found, installing pip."
   sudo apt install python3-pip -y
-  printf "${GREEN}===================== PIP INSTALLED =====================${NO_COLOR}\n\n"
+  FN_PRINT_GREEN_BANNER "PIP INSTALLED"
 fi
 
 if [ $(pip list | rg "pynvim" | wc -l) = 1 ]; then
@@ -23,7 +25,7 @@ if [ $(pip list | rg "pynvim" | wc -l) = 1 ]; then
 else
   echo "Pynvim not found, installing pynvim."
   python3 -m pip install --user --upgrade pynvim
-  printf "${GREEN}===================== PYNVIM INSTALLED =====================${NO_COLOR}\n\n"
+  FN_PRINT_GREEN_BANNER "INSTALLED"
 fi
 
 # Create backup
@@ -65,6 +67,6 @@ else
   FN_ERR_EXIT "NVIM app image not found" 
 fi
 
-printf "${GREEN}===================== NVIM INSTALLED =====================${NO_COLOR}\n\n"
-printf "${GREEN}\n===================== CHECKING NVIM VERSION =====================${NO_COLOR}\n\n"
+FN_PRINT_GREEN_BANNER "NVIM INSTALLED"
+FN_PRINT_GREEN_BANNER "CHECKING NVIM VERSION"
 ${HOME_PATH}/nvim.appimage -v

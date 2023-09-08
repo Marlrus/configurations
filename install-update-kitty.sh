@@ -3,8 +3,7 @@
 # IMPORTS
 source ./modules.sh
 
-echo ${HOME_PATH}
-exit 0
+FN_PRINT_GREEN_BANNER "KITTY INSTALLATION/UPDATE BEGINNING"
 
 curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin
 
@@ -45,4 +44,4 @@ else
   cp ./kitty.conf ${CONFIG_URL}/kitty
 fi
 
-FN_PRINT_GREEN "===================== KITTY INSTALLED/UPDATED ====================="
+FN_PRINT_GREEN_BANNER "KITTY INSTALLED/UPDATED"
