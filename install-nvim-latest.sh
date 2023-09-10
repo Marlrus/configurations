@@ -67,6 +67,10 @@ else
   FN_ERR_EXIT "NVIM app image not found" 
 fi
 
+curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+FN_PRINT_GREEN_BANNER "VIM PLUG INSTALLED/UPDATED"
+
 FN_PRINT_GREEN_BANNER "NVIM INSTALLED"
 FN_PRINT_GREEN_BANNER "CHECKING NVIM VERSION"
 ${HOME_PATH}/nvim.appimage -v
