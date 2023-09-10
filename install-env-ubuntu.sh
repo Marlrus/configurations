@@ -22,7 +22,7 @@ if ! [ $(git config --global --list | rg ${GITHUB_EMAIL} | wc -l) = 1 ] && [ $(g
   git config --global user.email ${GITHUB_EMAIL}
   git config --global user.name ${GITHUB_NAME}
 else 
-  echo "Git config mathches variables"
+  echo "Git config mathches variables, skipping git config."
 fi
 
 if ! [ $(apt list --installed | rg google-chrome-stable | wc -l) = 1 ]; then
