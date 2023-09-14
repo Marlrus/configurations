@@ -18,37 +18,37 @@ sudo apt install git-all -y
 FN_PRINT_GREEN_BANNER "GIT INSTALLED/UPDATED"
 
 if ! [ $(git config --global --list | rg ${GITHUB_EMAIL} | wc -l) = 1 ] && [ $(git config --global --list | rg ${GITHUB_NAME} | wc -l ) = 1 ]; then
-  echo "Git config does not match variables in modules file. Configuring global git user."
+  FN_PRINT_YELLOW "Git config does not match variables in modules file. Configuring global git user."
   git config --global user.email ${GITHUB_EMAIL}
   git config --global user.name ${GITHUB_NAME}
 else 
-  echo "Git config mathches variables, skipping git config."
+  FN_PRINT_YELLOW "Git config mathches variables, skipping git config."
 fi
 
 if ! [ $(apt list --installed | rg google-chrome-stable | wc -l) = 1 ]; then
-  echo "Google Chrome not Installed, installing google-chrome-stable"
+  FN_PRINT_YELLOW "Google Chrome not Installed, installing google-chrome-stable"
   wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add - 
   sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
   sudo apt update
   sudo apt install google-chrome-stable -y
   FN_PRINT_GREEN_BANNER "GOOGLE CHROME INSTALLED"
 else
-  echo "Google Chrome is already installed."
+  FN_PRINT_YELLOW "Google Chrome is already installed."
 fi
 
 if ! [ -L ${HOME_PATH}/.config/ranger/rc.conf ]; then
-  echo "ranger configuration not found. Adding rc.conf"
+  FN_PRINT_YELLOW "ranger configuration not found. Adding rc.conf"
   ln -s ${HOME_PATH}/.dotfiles/rc.conf ${HOME_PATH}/.config/ranger/
   FN_PRINT_GREEN_BANNER "RANGER INSTALLED AND CONFIGURED"
 else
-  echo "ranger configuration found."
+  FN_PRINT_YELLOW "ranger configuration found."
 fi
 
 sudo apt install ripgrep -y
 FN_PRINT_GREEN_BANNER "RIPGREP INSTALLED/UPDATED"
 
 if [ $(docker -v | wc -l) = 0 ]; then
-  echo "docker is not installed, installing docker"
+  FN_PRINT_YELLOW "docker is not installed, installing docker"
   sudo install -m 0755 -d /etc/apt/keyrings
   curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
   sudo chmod a+r /etc/apt/keyrings/docker.gpg
@@ -65,7 +65,7 @@ if [ $(docker -v | wc -l) = 0 ]; then
   newgrp docker
   FN_PRINT_GREEN_BANNER "DOCKER CONFIGURED"
 else 
-  echo "docker is already installed."
+  FN_PRINT_YELLOW "docker is already installed."
 fi
 
 ./install-dbeaver.sh
@@ -103,7 +103,7 @@ source ${HOME_PATH}/.nvm/nvm.sh
 source ${HOME_PATH}/.profile
 source ${HOME_PATH}/.bashrc
 if [ $(nvm -v | wc -l) != 1 ]; then
-  echo "nvm not found. Installing nvm"
+  FN_PRINT_YELLOW "nvm not found. Installing nvm"
   curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash
   source ${HOME_PATH}/.nvm/nvm.sh
   source ${HOME_PATH}/.profile
@@ -111,7 +111,7 @@ if [ $(nvm -v | wc -l) != 1 ]; then
   nvm install --lts
   FN_PRINT_GREEN_BANNER "NVM INSTALLED"
 else
-  echo "nvm installation found"
+  FN_PRINT_YELLOW "nvm installation found"
 fi
 
 npm i -g prettier
