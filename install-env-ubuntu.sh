@@ -123,6 +123,8 @@ FN_PRINT_GREEN_BANNER "PRETTIER INSTALLED/UPDATED"
 
 ./install-lsp-efm.sh
 
+./install-lsp-golang.sh
+
 FN_PRINT_GREEN_BANNER "NVIM LSPS INSTALLED/UPDATED"
 
 FN_PRINT_GREEN_BANNER "run nvim and run the command :PlugInstall to get all of the packages installed in the nvim env"
