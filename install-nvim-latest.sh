@@ -30,9 +30,7 @@ fi
 
 # Create backup
 if [ -f ${HOME_PATH}/nvim.appimage ]; then
-  if [ -f ${HOME_PATH}/nvim.appimage-prev ]; then
-    mv ${HOME_PATH}/nvim.appimage ${HOME_PATH}/nvim.appimage-prev
-  fi
+  cp ${HOME_PATH}/nvim.appimage ${HOME_PATH}/nvim.appimage-prev
   rm ${HOME_PATH}/nvim.appimage
 fi
 
