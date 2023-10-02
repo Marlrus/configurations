@@ -57,9 +57,9 @@ if [ $(docker -v | wc -l) = 0 ]; then
     "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | \
     sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
   sudo apt update
+  sudo apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
   FN_PRINT_GREEN_BANNER "DOCKER INSTALLED"
 
-  sudo apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
   sudo groupadd docker
   sudo usermod -aG docker $USER
   newgrp docker
