@@ -222,8 +222,8 @@ xmap <c-s>     <Plug>(neosnippet_expand_target)
 
   nvim_lsp.efm.setup {
     on_attach = function(client)
-      client.resolved_capabilities.document_formatting = false
-      client.resolved_capabilities.goto_definition = false
+      -- client.resolved_capabilities.document_formatting = false
+      -- client.resolved_capabilities.goto_definition = false
       -- set_lsp_config(client)
     end,
     root_dir = function()
