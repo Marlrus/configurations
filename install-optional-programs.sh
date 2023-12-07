@@ -11,3 +11,6 @@ FN_PRINT_GREEN_BANNER "KEEP PRESENCE INSTALLED"
 sudo add-apt-repository ppa:obsproject/obs-studio -y
 sudo apt install obs-studio -y
 FN_PRINT_GREEN_BANNER "OBS INSTALLED"
+
+sudo snap install vlc
+FN_PRINT_GREEN_BANNER "VLC INSTALLED"
