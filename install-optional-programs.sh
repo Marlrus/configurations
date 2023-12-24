@@ -14,3 +14,5 @@ FN_PRINT_GREEN_BANNER "OBS INSTALLED"
 
 sudo snap install vlc
 FN_PRINT_GREEN_BANNER "VLC INSTALLED"
+
+sudo snap install steam
