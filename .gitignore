@@ -2,3 +2,4 @@ nvim/autoload/
 nvim/plugin/
 nvim/.netrwhist
 .quicknav.sh
+vscode-js-debug/

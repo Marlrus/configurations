@@ -127,4 +127,8 @@ FN_PRINT_GREEN_BANNER "PRETTIER INSTALLED/UPDATED"
 
 FN_PRINT_GREEN_BANNER "NVIM LSPS INSTALLED/UPDATED"
 
+./install-debuger-js.sh
+
+FN_PRINT_GREEN_BANNER "NVIM DEBUGGER DEPENDENCIES INSTALLED"
+
 FN_PRINT_GREEN_BANNER "run nvim and run the command :PlugInstall to get all of the packages installed in the nvim env"
