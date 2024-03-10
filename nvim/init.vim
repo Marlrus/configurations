@@ -27,6 +27,9 @@ Plug 'bluz71/vim-moonfly-colors'
 Plug 'agude/vim-eldar'
 Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
 Plug 'mbbill/undotree'
+Plug 'mfussenegger/nvim-dap'
+Plug 'rcarriga/nvim-dap-ui'
+Plug 'mxsdev/nvim-dap-vscode-js'
 
 call plug#end()
 
@@ -186,72 +189,12 @@ xmap <c-s>     <Plug>(neosnippet_expand_target)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', '<F2>', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
   end
-  local servers = {'jsonls', 'tsserver', 'cssls', 'graphql', 'yamlls', 'bashls', 'vimls', 'html', 'terraformls', 'gopls', 'docker_compose_language_service', 'dockerls'}
+  local servers = {'jsonls', 'tsserver', 'cssls', 'graphql', 'yamlls', 'bashls', 'vimls', 'html', 'terraformls', 'gopls', 'docker_compose_language_service', 'dockerls', 'eslint', 'nxls'}
   for _, lsp in ipairs(servers) do
     nvim_lsp[lsp].setup {
       on_attach = on_attach,
     }
   end
-
--- eslint setup with efm server
-
-  local eslint = {
-    lintCommand = "eslint_d -f unix --stdin --stdin-filename ${INPUT}",
-    lintStdin = true,
-    lintFormats = {"%f:%l:%c: %m"},
-    lintIgnoreExitCode = true,
-    formatCommand = "eslint_d --fix-to-stdout --stdin --stdin-filename=${INPUT}",
-    formatStdin = true
-  }
-
-  local function eslint_config_exists()
-    local eslintrc = vim.fn.glob(".eslintrc*", 0, 1)
-
-    if not vim.tbl_isempty(eslintrc) then
-      return true
-    end
-
-    if vim.fn.filereadable("package.json") then
-      if vim.fn.json_decode(vim.fn.readfile("package.json"))["eslintConfig"] then
-        return true
-      end
-    end
-
-    return false
-  end
-
-  nvim_lsp.efm.setup {
-    on_attach = function(client)
-      -- client.resolved_capabilities.document_formatting = false
-      -- client.resolved_capabilities.goto_definition = false
-      -- set_lsp_config(client)
-    end,
-    root_dir = function()
-      if not eslint_config_exists() then
-        return nil
-      end
-      return vim.fn.getcwd()
-    end,
-    settings = {
-      rootMarkers = {".git/"},
-      languages = {
-        javascript = {eslint},
-        javascriptreact = {eslint},
-        ["javascript.jsx"] = {eslint},
-        typescript = {eslint},
-        ["typescript.tsx"] = {eslint},
-        typescriptreact = {eslint}
-      }
-    },
-    filetypes = {
-      "javascript",
-      "javascriptreact",
-      "javascript.jsx",
-      "typescript",
-      "typescript.tsx",
-      "typescriptreact"
-    },
-  }
 
 -- Diag config enable use of ctrl c remove underline err
 
@@ -262,6 +205,58 @@ xmap <c-s>     <Plug>(neosnippet_expand_target)
       update_in_insert = true,
     }
   )
+
+-- JS/TS Debugger Config
+  local dap, dapui = require("dap"), require("dapui")
+  dapui.setup()
+  dap.listeners.before.attach.dapui_config = function()
+    dapui.open()
+  end
+  dap.listeners.before.launch.dapui_config = function()
+    dapui.open()
+  end
+  dap.listeners.before.event_terminated.dapui_config = function()
+    dapui.close()
+  end
+  dap.listeners.before.event_exited.dapui_config = function()
+    dapui.close()
+  end
+
+  for _, language in ipairs({ "typescript", "javascript" }) do
+    dap.configurations[language] = {
+      {
+        type = "pwa-node",
+        request = "launch",
+        name = "Launch file",
+        program = "${file}",
+        cwd = "${workspaceFolder}",
+      },
+      {
+        type = "pwa-node",
+        request = "attach",
+        address = "localhost",
+        name = "Auto Attach To Localhost Default",
+        cwd = "${workspaceFolder}",
+      },
+      {
+        type = "pwa-node",
+        request = "attach",
+        name = "Attach to Process",
+        processId = require("dap.utils").pick_process,
+        cwd = "${workspaceFolder}",
+      }
+    }
+  end
+
+  require("dap-vscode-js").setup({
+    -- node_path = "node", -- Path of node executable. Defaults to $NODE_PATH, and then "node"
+    debugger_path = "/home/marlrus/.dotfiles/vscode-js-debug", -- Path to vscode-js-debug installation.
+    -- debugger_cmd = { "js-debug-adapter" }, -- Command to use to launch the debug server. Takes precedence over `node_path` and `debugger_path`.
+    adapters = { 'pwa-node', 'pwa-chrome', 'pwa-msedge', 'node-terminal', 'pwa-extensionHost' }, -- which adapters to register in nvim-dap
+    -- log_file_path = "(stdpath cache)/dap_vscode_js.log" -- Path for file logging
+    -- log_file_level = false -- Logging level for output to file. Set to false to disable file logging.
+    -- log_console_level = vim.log.levels.ERROR -- Logging level for output to console. Set to false to disable console output.
+  })
 EOF
 
 "LSP diagnostics Keybinds
@@ -270,3 +265,10 @@ nmap <leader>N :lua vim.diagnostic.goto_prev()<CR>
 
 nnoremap <leader>f :Neoformat<CR>
 xnoremap <leader>f :Neoformat<CR>
+
+"Debugger Mapper
+nmap <leader>db :lua require'dap'.toggle_breakpoint()<CR>
+nmap <leader>dc :lua require'dap'.continue()<CR>
+nmap <leader>dt :lua require'dap'.terminate()<CR>
+nmap <leader>dso :lua require'dap'.step_over()<CR>
+nmap <leader>dsi :lua require'dap'.step_into()<CR>

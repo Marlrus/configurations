@@ -13,5 +13,6 @@ npm i -g bash-language-server
 npm install -g vim-language-server
 npm install -g dockerfile-language-server-nodejs
 npm install -g @microsoft/compose-language-service
+npm install -g nxls
 
 FN_PRINT_GREEN_BANNER "NPM LSP SERVERS INSTALLED/UPDATED FOR CURRENT NODE VERSION"
