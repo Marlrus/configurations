@@ -8,5 +8,6 @@ FN_PRINT_GREEN_BANNER "DEV PACKAGES INSTALLATION/UPDATE BEGINNING"
 ./install-update-kitty.sh &&
 ./install-nvim-latest.sh &&
 ./install-update-lazygit.sh
+./install-update-postgres.sh
 
 FN_PRINT_GREEN_BANNER "DEV PACKAGES INSTALLED/UPDATED"
