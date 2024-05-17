@@ -16,6 +16,7 @@ sudo snap install vlc
 FN_PRINT_GREEN_BANNER "VLC INSTALLED"
 
 sudo snap install steam
+sudo snap install postman
 
 sudo apt install darktable
 sudo apt install rawtherapee
