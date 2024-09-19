@@ -28,6 +28,7 @@ Plug 'mbbill/undotree'
 Plug 'mfussenegger/nvim-dap'
 Plug 'rcarriga/nvim-dap-ui'
 Plug 'mxsdev/nvim-dap-vscode-js'
+Plug 'nvim-neotest/nvim-nio'
 
 call plug#end()
 
@@ -176,7 +177,7 @@ inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
     vim.api.nvim_buf_set_keymap(bufnr, 'n', '<F2>', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
   end
-  local servers = {'jsonls', 'tsserver', 'cssls', 'graphql', 'yamlls', 'bashls', 'vimls', 'html', 'terraformls', 'gopls', 'docker_compose_language_service', 'dockerls', 'eslint', 'nxls'}
+  local servers = {'jsonls', 'ts_ls', 'cssls', 'graphql', 'yamlls', 'bashls', 'vimls', 'html', 'terraformls', 'gopls', 'docker_compose_language_service', 'dockerls', 'eslint', 'nxls'}
   for _, lsp in ipairs(servers) do
     nvim_lsp[lsp].setup {
       on_attach = on_attach,
