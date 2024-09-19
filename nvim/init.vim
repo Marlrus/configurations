@@ -10,8 +10,6 @@ Plug 'liuchengxu/vim-which-key'
 Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] }
 Plug 'wookayin/fzf-ripgrep.vim'
 Plug 'sbdchd/neoformat'
-Plug 'Shougo/neosnippet.vim'
-Plug 'Shougo/neosnippet-snippets'
 Plug 'jiangmiao/auto-pairs'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
@@ -161,17 +159,6 @@ set completeopt=menu,noselect,noinsert
 let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy', 'all']
 " Use <Tab> and <S-Tab> to navigate through popup menu
 inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
-" Move through snippets using tab
-smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-\ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
-" disable default snippets from neosnippets
-let g:neosnippet#disable_runtime_snippets = {'_' : 1}
-" Custom snippet directory
-let g:neosnippet#snippets_directory = '~/.config/nvim/snippets'
-" select snippets and move between points in snippet
-imap <c-s>     <Plug>(neosnippet_expand_or_jump)
-smap <c-s>     <Plug>(neosnippet_expand_or_jump)
-xmap <c-s>     <Plug>(neosnippet_expand_target)
 
 " ============== LSP RELATED ===============
 
