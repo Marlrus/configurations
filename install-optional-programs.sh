@@ -20,3 +20,5 @@ sudo snap install postman
 
 sudo apt install darktable
 sudo apt install rawtherapee
+
+sudo apt install pandoc
