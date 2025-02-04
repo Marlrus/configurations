@@ -34,25 +34,26 @@ if [ -f ${HOME_PATH}/nvim.appimage ]; then
   rm ${HOME_PATH}/nvim.appimage
 fi
 
-wget -q --show-progress https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage -P ${HOME_PATH}/ &&
+wget -q --show-progress https://github.com/neovim/neovim/releases/download/nightly/nvim-linux-x86_64.appimage -P ${HOME_PATH}/ &&
+mv ${HOME_PATH}/nvim-linux-x86_64.appimage ${HOME_PATH}/nvim.appimage
 FN_PRINT_YELLOW "Nvim latest dowloaded to home directory." ||
 FN_ERR_EXIT "Error dowloading NVIM"
 
-wget -q --show-progress https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage.sha256sum -P ${HOME_PATH}/ &&
+wget -q --show-progress https://github.com/neovim/neovim/releases/download/nightly/shasum.txt -P ${HOME_PATH}/ &&
 FN_PRINT_YELLOW "Downloading Checksum" ||
 FN_ERR_EXIT "Error dowloading NVIM Checksum"
 
-if [ -f ${HOME_PATH}/nvim.appimage ] && [ -f ${HOME_PATH}/nvim.appimage.sha256sum ]; then
+if [ -f ${HOME_PATH}/nvim.appimage ] && [ -f ${HOME_PATH}/shasum.txt ]; then
   FN_PRINT_YELLOW "Verifying checksum"
   # In case checksum changes
-  CHECKSUM=$(awk '{print $1}' ${HOME_PATH}/nvim.appimage.sha256sum)
+  CHECKSUM=$(rg nvim-linux-x86_64.appimage$ ${HOME_PATH}/shasum.txt | awk '{print $1}')
   if [[ $(sha256sum ${HOME_PATH}/nvim.appimage | awk '{print $1}') != $CHECKSUM ]]; then
     cp ${HOME_PATH}/nvim.appimage-prev ${HOME_PATH}/nvim.appimage
     FN_ERR_EXIT "Checksum not matching, reverting nvim to previous appimage"
   else
     FN_PRINT_YELLOW "Checksum matches."
   fi
-  rm ${HOME_PATH}/nvim.appimage.sha256sum
+  rm ${HOME_PATH}/shasum.txt
   chmod +x ${HOME_PATH}/nvim.appimage
   FN_PRINT_YELLOW "Execution permissions added to nvim"
   if ! command grep -qc  '/nvim.appimage' ${HOME_PATH}/.bashrc; then
