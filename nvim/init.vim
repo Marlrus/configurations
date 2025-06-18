@@ -218,9 +218,12 @@ highlight! link SignColumn LineNr
   -- Set up lspconfig.
   local capabilities = require('cmp_nvim_lsp').default_capabilities()
   -- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
-  require('lspconfig')['<YOUR_LSP_SERVER>'].setup {
-    capabilities = capabilities
-  }
+  local servers = {'jsonls', 'ts_ls', 'cssls', 'graphql', 'yamlls', 'bashls', 'vimls', 'html', 'terraformls', 'gopls', 'docker_compose_language_service', 'dockerls', 'eslint', 'nxls'}
+  for _, server in ipairs(servers) do
+    require('lspconfig')[server].setup {
+      capabilities = capabilities
+    }
+  end
 EOF
 
 " ============== LSP RELATED ===============
