@@ -10,7 +10,7 @@ if ! [ $(apt list --installed | rg postgresql-16 | wc -l) = 1 ]; then
   sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
   curl -fsSL https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo gpg --dearmor -o /etc/apt/trusted.gpg.d/postgresql.gpg
 else
-  FN_PRINT_YELLOW "terraform-ls is already installed, updating terraform-ls"
+  FN_PRINT_YELLOW "postgres-16 is already installed, updating terraform-ls"
 fi
 
 sudo apt update
