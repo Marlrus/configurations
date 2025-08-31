@@ -15,9 +15,10 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-vividchalk'
 Plug 'bignimbus/pop-punk.vim'
+Plug 'zootedb0t/citruszest.nvim'
+Plug 'nyngwang/nvimgelion'
+Plug 'aperezdc/vim-elrond'
 Plug 'airblade/vim-gitgutter'
-Plug 'nanotech/jellybeans.vim'
-Plug 'morhetz/gruvbox'
 Plug 'balanceiskey/vim-framer-syntax'
 Plug 'bluz71/vim-moonfly-colors'
 Plug 'agude/vim-eldar'
@@ -65,11 +66,12 @@ set termguicolors
 " set colorcolumn=100
 " highlight ColorColumn ctermbg=238
 
-colorscheme pop-punk
+:lua vim.cmd("colorscheme citruszest")
+" :lua vim.cmd("colorscheme nvimgelion")
+" :lua vim.cmd("colorscheme elrond")
+" colorscheme pop-punk
 " colorscheme eldar
 " colorscheme vividchalk
-" colorscheme jellybeans
-" colorscheme gruvbox
 
 " lua vim.o.ls = 0
 " lua vim.o.ch = 0
