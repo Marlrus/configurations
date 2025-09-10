@@ -66,8 +66,9 @@ set termguicolors
 " set colorcolumn=100
 " highlight ColorColumn ctermbg=238
 
-:lua vim.cmd("colorscheme citruszest")
-" :lua vim.cmd("colorscheme nvimgelion")
+" :lua vim.cmd("colorscheme citruszest")
+" :lua vim.cmd("colorscheme retrobox")
+:lua vim.cmd("colorscheme nvimgelion")
 " :lua vim.cmd("colorscheme elrond")
 " colorscheme pop-punk
 " colorscheme eldar
