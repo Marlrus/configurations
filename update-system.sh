@@ -9,6 +9,7 @@ sudo apt update && sudo apt -y upgrade ||
 FN_ERR_EXIT "Error updating with apt"
 
 sudo cp -r /usr/libexec/docker/cli-plugins/docker-compose /usr/lib/docker/cli-plugins/docker-compose
+sudo cp -r /usr/libexec/docker/cli-plugins/docker-buildx /usr/lib/docker/cli-plugins/docker-buildx
 
 FN_PRINT_GREEN_BANNER "PACKAGE MANAGER PACKAGES UPDATED"
 
