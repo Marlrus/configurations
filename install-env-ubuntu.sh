@@ -14,26 +14,18 @@ chmod +x *.sh
 sudo apt install curl -y
 FN_PRINT_GREEN_BANNER "CURL INSTALLED/UPDATED"
 
-sudo apt install git-all -y
+sudo apt install ripgrep -y
+FN_PRINT_GREEN_BANNER "RIPGREP INSTALLED/UPDATED"
+
+sudo apt install git -y
 FN_PRINT_GREEN_BANNER "GIT INSTALLED/UPDATED"
 
-if ! [ $(git config --global --list | rg ${GITHUB_EMAIL} | wc -l) = 1 ] && [ $(git config --global --list | rg ${GITHUB_NAME} | wc -l ) = 1 ]; then
+if ! [ $(git config --global --list | rg ${GITHUB_EMAIL} | wc -l) = 1 ] && ! [ $(git config --global --list | rg ${GITHUB_NAME} | wc -l ) = 1 ]; then
   FN_PRINT_YELLOW "Git config does not match variables in modules file. Configuring global git user."
   git config --global user.email ${GITHUB_EMAIL}
   git config --global user.name ${GITHUB_NAME}
 else 
   FN_PRINT_YELLOW "Git config mathches variables, skipping git config."
-fi
-
-if ! [ $(apt list --installed | rg google-chrome-stable | wc -l) = 1 ]; then
-  FN_PRINT_YELLOW "Google Chrome not Installed, installing google-chrome-stable"
-  wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add - 
-  sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
-  sudo apt update
-  sudo apt install google-chrome-stable -y
-  FN_PRINT_GREEN_BANNER "GOOGLE CHROME INSTALLED"
-else
-  FN_PRINT_YELLOW "Google Chrome is already installed."
 fi
 
 if ! [ -L ${HOME_PATH}/.config/ranger/rc.conf ]; then
@@ -44,32 +36,6 @@ else
   FN_PRINT_YELLOW "ranger configuration found."
 fi
 
-sudo apt install ripgrep -y
-FN_PRINT_GREEN_BANNER "RIPGREP INSTALLED/UPDATED"
-
-if [ $(docker -v | wc -l) = 0 ]; then
-  FN_PRINT_YELLOW "docker is not installed, installing docker"
-  sudo install -m 0755 -d /etc/apt/keyrings
-  curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
-  sudo chmod a+r /etc/apt/keyrings/docker.gpg
-  echo \
-    "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
-    "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | \
-    sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-  sudo apt update
-  sudo apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
-  FN_PRINT_GREEN_BANNER "DOCKER INSTALLED"
-
-  sudo groupadd docker
-  sudo usermod -aG docker $USER
-  newgrp docker
-  FN_PRINT_GREEN_BANNER "DOCKER CONFIGURED"
-else 
-  FN_PRINT_YELLOW "docker is already installed."
-fi
-
-./install-dbeaver.sh
-
 ./install-update-lazygit.sh
 
 ./install-update-kitty.sh
@@ -79,8 +45,9 @@ echo "source ${HOME_PATH}/.bashprompt" >> ${HOME_PATH}/.bashrc
 source ${HOME_PATH}/.bashrc
 FN_PRINT_GREEN_BANNER "BASHPROMPT CONFIGURED"
 
-sudo apt install libfuse2 -y
-FN_PRINT_GREEN_BANNER "LIBFUSE INSTALLED/UPDATED"
+# Comes default v 3-4 on Ubuntu 26.xx
+# sudo apt install libfuse2 -y
+# FN_PRINT_GREEN_BANNER "LIBFUSE INSTALLED/UPDATED"
 
 sudo apt install xclip -y
 FN_PRINT_GREEN_BANNER "XCLIP INSTALLED/UPDATED"
@@ -119,16 +86,8 @@ FN_PRINT_GREEN_BANNER "PRETTIER INSTALLED/UPDATED"
 
 ./install-npm-lsp-servers.sh
 
-./install-lsp-terraform-ls.sh
-
-./install-lsp-efm.sh
-
-./install-lsp-golang.sh
-
 FN_PRINT_GREEN_BANNER "NVIM LSPS INSTALLED/UPDATED"
 
-./install-debuger-js.sh
-
-FN_PRINT_GREEN_BANNER "NVIM DEBUGGER DEPENDENCIES INSTALLED"
-
 FN_PRINT_GREEN_BANNER "run nvim and run the command :PlugInstall to get all of the packages installed in the nvim env"
+
+./install-dbeaver.sh
