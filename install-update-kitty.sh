@@ -28,11 +28,12 @@ else
 fi
 
 # Set Kitty as default terminal
-if [ $(update-alternatives --display x-terminal-emulator | rg "kitty.*priority 50" | wc -l) = 1 ]; then
+if [ -f ${HOME_PATH}/.config/ubuntu-xdg-terminals.list ] && [ $(cat ${HOME_PATH}/.config/ubuntu-xdg-terminals.list | rg kitty | wc -l) = 1 ]; then
   FN_PRINT_YELLOW "Kitty already set as default terminal."
 else
   FN_PRINT_YELLOW "Setting Kitty as default terminal."
-  sudo update-alternatives --install /usr/bin/x-terminal-emulator x-terminal-emulator /usr/bin/kitty 50
+  touch ${HOME_PATH}/.config/ubuntu-xdg-terminals.list
+  echo "kitty.desktop" >> ${HOME_PATH}/.config/ubuntu-xdg-terminals.list
 fi
 
 # Set Kitty Configuration with symlink
