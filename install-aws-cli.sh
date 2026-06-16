@@ -20,6 +20,7 @@ FN_PRINT_GREEN_BANNER "Download Verified. Unzipping and Installing CLI"
 
 unzip ${CLI_PATH} -d ${HOME_PATH}
 sudo ${HOME_PATH}/aws/install
+mkdir ${HOME_PATH}/.aws
 
 FN_PRINT_YELLOW "AWS CLI Installed, verifying version"
 aws --version
