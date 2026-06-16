@@ -52,9 +52,9 @@ FN_PRINT_GREEN_BANNER "BASHPROMPT CONFIGURED"
 sudo apt install xclip -y
 FN_PRINT_GREEN_BANNER "XCLIP INSTALLED/UPDATED"
 
-sudo apt install neofetch -y
-FN_PRINT_GREEN_BANNER "NEOFETCH INSTALLED"
-neofetch
+sudo apt install fastfetch -y
+FN_PRINT_GREEN_BANNER "FASTFETCH INSTALLED"
+fastfetch
 
 ./install-nvim-latest.sh
 source ~/.bashrc
