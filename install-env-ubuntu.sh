@@ -28,8 +28,16 @@ else
   FN_PRINT_YELLOW "Git config mathches variables, skipping git config."
 fi
 
+if ! [ $(apt list --installed | rg ranger | wc -l) = 1 ]; then
+  FN_PRINT_YELLOW "ranger not found, installing ranger"
+  sudo apt install ranger -y
+else
+  FN_PRINT_YELLOW "ranger is already installed"
+fi
+
 if ! [ -L ${HOME_PATH}/.config/ranger/rc.conf ]; then
   FN_PRINT_YELLOW "ranger configuration not found. Adding rc.conf"
+  mkdir ${HOME_PATH}/.config/ranger
   ln -s ${HOME_PATH}/.dotfiles/rc.conf ${HOME_PATH}/.config/ranger/
   FN_PRINT_GREEN_BANNER "RANGER INSTALLED AND CONFIGURED"
 else
