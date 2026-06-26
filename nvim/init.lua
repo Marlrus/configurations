@@ -242,36 +242,137 @@ cmp.setup.cmdline(':', {
 
 -- =========== LSP ===========
 
+-- Dynamically find and inject the active NVM directory into Neovim's runtime path
+local nvm_dir = os.getenv("HOME") .. "/.nvm/versions/node/"
+local handle = io.popen("ls " .. nvm_dir .. " 2>/dev/null")
+if handle then
+  local result = handle:read("*a")
+  handle:close()
+  local versions = {}
+  for version in string.gmatch(result, "[^\r\n]+") do
+    table.insert(versions, version)
+  end
+  if #versions > 0 then
+    local active_node_bin = nvm_dir .. versions[#versions] .. "/bin"
+    vim.env.PATH = active_node_bin .. ":" .. vim.env.PATH
+  end
+end
+
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
 local on_attach = function(_, bufnr)
-  vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, { buffer = bufnr })
-  vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { buffer = bufnr })
-  vim.keymap.set('n', 'gr', vim.lsp.buf.references, { buffer = bufnr })
-  vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, { buffer = bufnr })
-  vim.keymap.set('n', 'K', vim.lsp.buf.hover, { buffer = bufnr })
-  vim.keymap.set('n', 'gy', vim.lsp.buf.type_definition, { buffer = bufnr })
-  vim.keymap.set('n', '<F2>', vim.lsp.buf.rename, { buffer = bufnr })
-  vim.keymap.set('n', '<space>e', vim.diagnostic.open_float, { buffer = bufnr })
+  vim.keymap.set('n', 'gD',       vim.lsp.buf.declaration,    { buffer = bufnr })
+  vim.keymap.set('n', 'gd',       vim.lsp.buf.definition,     { buffer = bufnr })
+  vim.keymap.set('n', 'gr',       vim.lsp.buf.references,     { buffer = bufnr })
+  vim.keymap.set('n', 'gi',       vim.lsp.buf.implementation, { buffer = bufnr })
+  vim.keymap.set('n', 'K',        vim.lsp.buf.hover,          { buffer = bufnr })
+  vim.keymap.set('n', 'gy',       vim.lsp.buf.type_definition,{ buffer = bufnr })
+  vim.keymap.set('n', '<F2>',     vim.lsp.buf.rename,         { buffer = bufnr })
+  vim.keymap.set('n', '<space>e', vim.diagnostic.open_float,  { buffer = bufnr })
 end
 
-local servers = {
-  'jsonls', 'ts_ls', 'cssls', 'graphql', 'yamlls',
-  'bashls', 'vimls', 'html', 'docker_compose_language_service',
-  'dockerls', 'nxls'
+local server_configs = {
+  ts_ls = {
+    cmd          = { 'typescript-language-server', '--stdio' },
+    filetypes    = { 'typescript', 'javascript', 'typescriptreact', 'javascriptreact' },
+    root_markers = { 'tsconfig.json', 'package.json', '.git' },
+  },
+  jsonls = {
+    cmd          = { 'vscode-json-language-server', '--stdio' },
+    filetypes    = { 'json', 'jsonc' },
+    root_markers = { 'package.json', '.git' },
+  },
+  cssls = {
+    cmd          = { 'vscode-css-language-server', '--stdio' },
+    filetypes    = { 'css', 'scss', 'less' },
+    root_markers = { 'package.json', '.git' },
+  },
+  graphql = {
+    cmd          = { 'graphql-lsp', 'server', '-m', 'stream' },
+    filetypes    = { 'graphql' },
+    root_markers = { '.graphqlrc', 'graphql.config.js', 'package.json', '.git' },
+  },
+  yamlls = {
+    cmd          = { 'yaml-language-server', '--stdio' },
+    filetypes    = { 'yaml', 'yaml.docker-compose' },
+    root_markers = { '.git' },
+  },
+  bashls = {
+    cmd          = { 'bash-language-server', 'start' },
+    filetypes    = { 'sh', 'bash' },
+    root_markers = { '.git' },
+  },
+  vimls = {
+    cmd          = { 'vim-language-server', '--stdio' },
+    filetypes    = { 'vim' },
+    root_markers = { '.git' },
+  },
+  html = {
+    cmd          = { 'vscode-html-language-server', '--stdio' },
+    filetypes    = { 'html' },
+    root_markers = { 'package.json', '.git' },
+  },
+  docker_compose_language_service = {
+    cmd          = { 'docker-compose-langserver', '--stdio' },
+    filetypes    = { 'yaml.docker-compose' },
+    root_markers = { 'docker-compose.yml', 'docker-compose.yaml', '.git' },
+  },
+  dockerls = {
+    cmd          = { 'docker-langserver', '--stdio' },
+    filetypes    = { 'dockerfile' },
+    root_markers = { 'Dockerfile', '.git' },
+  },
+  nxls = {
+    cmd          = { 'nxls', '--stdio' },
+    filetypes    = { 'json', 'jsonc' },
+    root_markers = { 'nx.json', 'package.json', '.git' },
+  },
 }
 
-for _, server in ipairs(servers) do
+-- Register configs and enable servers
+for server, config in pairs(server_configs) do
   vim.lsp.config(server, {
+    cmd          = config.cmd,
+    filetypes    = config.filetypes,
     capabilities = capabilities,
-    on_attach = on_attach,
+    on_attach    = on_attach,
   })
-  vim.lsp.enable(server)
+  -- vim.lsp.enable(server)
 end
 
+-- Auto-start servers on FileType with root_dir resolved per file
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = {
+    'typescript', 'javascript', 'typescriptreact', 'javascriptreact',
+    'json', 'jsonc', 'css', 'scss', 'less', 'graphql',
+    'yaml', 'sh', 'bash', 'vim', 'html', 'dockerfile',
+  },
+  callback = function(args)
+    local ft = vim.bo[args.buf].filetype
+    local fname = vim.api.nvim_buf_get_name(args.buf)
+
+    for server, config in pairs(server_configs) do
+      if vim.tbl_contains(config.filetypes, ft) then
+        local root = vim.fs.dirname(
+          vim.fs.find(config.root_markers, { path = fname, upward = true })[1]
+        ) or vim.fn.getcwd()
+
+        vim.lsp.start({
+          name         = server,
+          cmd          = config.cmd,
+          filetypes    = config.filetypes,
+          capabilities = capabilities,
+          on_attach    = on_attach,
+          root_dir     = root,
+        })
+      end
+    end
+  end,
+})
+
 vim.diagnostic.config({
-  underline = true,
-  signs = true,
+  underline        = true,
+  signs            = true,
   update_in_insert = true,
 })
 
