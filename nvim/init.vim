@@ -28,7 +28,6 @@ Plug 'mfussenegger/nvim-dap'
 Plug 'rcarriga/nvim-dap-ui'
 Plug 'mxsdev/nvim-dap-vscode-js'
 Plug 'nvim-neotest/nvim-nio'
-Plug 'nvim-neotest/nvim-nio'
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/cmp-path'
@@ -217,51 +216,51 @@ highlight! link SignColumn LineNr
     }),
     matching = { disallow_symbol_nonprefix_matching = false }
   })
-
-  -- Set up lspconfig.
-  local capabilities = require('cmp_nvim_lsp').default_capabilities()
-  -- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
-  local servers = {'jsonls', 'ts_ls', 'cssls', 'graphql', 'yamlls', 'bashls', 'vimls', 'html', 'docker_compose_language_service', 'dockerls', 'nxls'}
-  for _, server in ipairs(servers) do
-    require('lspconfig')[server].setup {
-      capabilities = capabilities
-    }
-  end
 EOF
 
 " ============== LSP RELATED ===============
 
+:lua << EOF
+  -- Capabilities for nvim-cmp
+  local capabilities = require('cmp_nvim_lsp').default_capabilities()
+
+  local on_attach = function(_, bufnr)
+    vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, { buffer = bufnr })
+    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { buffer = bufnr })
+    vim.keymap.set('n', 'gr', vim.lsp.buf.references, { buffer = bufnr })
+    vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, { buffer = bufnr })
+    vim.keymap.set('n', 'K', vim.lsp.buf.hover, { buffer = bufnr })
+    vim.keymap.set('n', 'gy', vim.lsp.buf.type_definition, { buffer = bufnr })
+    vim.keymap.set('n', '<F2>', vim.lsp.buf.rename, { buffer = bufnr })
+    vim.keymap.set('n', '<space>e', vim.diagnostic.open_float, { buffer = bufnr })
+  end
+
+  local servers = {
+    'jsonls', 'ts_ls', 'cssls', 'graphql', 'yamlls',
+    'bashls', 'vimls', 'html', 'docker_compose_language_service',
+    'dockerls', 'nxls'
+  }
+
+  for _, server in ipairs(servers) do
+    vim.lsp.config(server, {
+      capabilities = capabilities,
+      on_attach = on_attach,
+    })
+    vim.lsp.enable(server)
+  end
+
+  -- Diagnostics config
+  vim.diagnostic.config({
+    underline = true,
+    signs = true,
+    update_in_insert = true,
+  })
+EOF
+
+" ============== DEBUGGER RELATED ===============
+
 "" require('completion').on_attach() add this to use completion-nvim
 :lua << EOF
-  local nvim_lsp = require('lspconfig')
-  local on_attach = function(_, bufnr)
-    local opts = { noremap=true, silent=true }
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gy', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<F2>', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
-  end
-  local servers = {'jsonls', 'ts_ls', 'cssls', 'graphql', 'yamlls', 'bashls', 'vimls', 'html', 'docker_compose_language_service', 'dockerls', 'nxls'}
-  for _, lsp in ipairs(servers) do
-    nvim_lsp[lsp].setup {
-      on_attach = on_attach,
-    }
-  end
-
--- Diag config enable use of ctrl c remove underline err
-
-  vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
-    vim.lsp.diagnostic.on_publish_diagnostics, {
-      underline = true,
-      signs = true,
-      update_in_insert = true,
-    }
-  )
-
 -- JS/TS Debugger Config
   local dap, dapui = require("dap"), require("dapui")
   dapui.setup()
