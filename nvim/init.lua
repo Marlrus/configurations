@@ -30,11 +30,7 @@ plug('mfussenegger/nvim-dap')
 plug('rcarriga/nvim-dap-ui')
 plug('mxsdev/nvim-dap-vscode-js')
 plug('nvim-neotest/nvim-nio')
-plug('hrsh7th/cmp-nvim-lsp')
-plug('hrsh7th/cmp-buffer')
-plug('hrsh7th/cmp-path')
-plug('hrsh7th/cmp-cmdline')
-plug('hrsh7th/nvim-cmp')
+plug('saghen/blink.cmp', { tag = 'v1.*' })
 
 vim.call('plug#end')
 
@@ -189,58 +185,22 @@ vim.g.gitgutter_map_keys = 0
 vim.g.gitgutter_preview_win_floating = 1
 vim.cmd('highlight! link SignColumn LineNr')
 
--- =========== Nvim CMP ===========
+-- =========== Blink CMP ===========
 
-local cmp = require('cmp')
-
-cmp.setup({
-  window = {
-    -- completion = cmp.config.window.bordered(),
-    -- documentation = cmp.config.window.bordered(),
+require('blink.cmp').setup({
+  keymap = {
+    preset = 'default',
+    ['<C-e>']  = { 'cancel', 'fallback' },
+    ['<Tab>']  = { 'accept', 'fallback' },
+    ['<C-b>']  = { 'scroll_documentation_up', 'fallback' },
+    ['<C-f>']  = { 'scroll_documentation_down', 'fallback' },
   },
-  mapping = cmp.mapping.preset.insert({
-    ['<C-b>'] = cmp.mapping.scroll_docs(-4),
-    ['<C-f>'] = cmp.mapping.scroll_docs(4),
-    ['<C-Space>'] = cmp.mapping.complete(),
-    ['<C-e>'] = cmp.mapping.abort(),
-    ['<Tab>'] = cmp.mapping.confirm({ select = true }),
-  }),
-  sources = cmp.config.sources({
-    { name = 'nvim_lsp' },
-    { name = 'vsnip' },
-    -- { name = 'luasnip' },
-    -- { name = 'ultisnips' },
-    -- { name = 'snippy' },
-  }, {
-    { name = 'buffer' },
-  })
-})
-
--- To use git you need to install petertriho/cmp-git and uncomment:
---[[ cmp.setup.filetype('gitcommit', {
-  sources = cmp.config.sources({
-    { name = 'git' },
-  }, {
-    { name = 'buffer' },
-  })
-})
-require("cmp_git").setup() ]]
-
-cmp.setup.cmdline({ '/', '?' }, {
-  mapping = cmp.mapping.preset.cmdline(),
   sources = {
-    { name = 'buffer' }
-  }
-})
-
-cmp.setup.cmdline(':', {
-  mapping = cmp.mapping.preset.cmdline(),
-  sources = cmp.config.sources({
-    { name = 'path' }
-  }, {
-    { name = 'cmdline' }
-  }),
-  matching = { disallow_symbol_nonprefix_matching = false }
+    default = { 'lsp', 'buffer', 'path', 'cmdline' },
+  },
+  completion = {
+    documentation = { auto_show = true },
+  },
 })
 
 -- =========== LSP ===========
@@ -261,7 +221,7 @@ if handle then
   end
 end
 
-local capabilities = require('cmp_nvim_lsp').default_capabilities()
+local capabilities = require('blink.cmp').get_lsp_capabilities()
 
 local on_attach = function(_, bufnr)
   vim.keymap.set('n', 'gD',       vim.lsp.buf.declaration,    { buffer = bufnr })
@@ -332,7 +292,7 @@ local server_configs = {
   },
 }
 
--- Register configs and enable servers
+-- Register configs without enabling — autocommand handles startup
 for server, config in pairs(server_configs) do
   vim.lsp.config(server, {
     cmd          = config.cmd,
@@ -340,7 +300,6 @@ for server, config in pairs(server_configs) do
     capabilities = capabilities,
     on_attach    = on_attach,
   })
-  -- vim.lsp.enable(server)
 end
 
 -- Auto-start servers on FileType with root_dir resolved per file
