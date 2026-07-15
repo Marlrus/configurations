@@ -102,10 +102,41 @@ map('n', '<leader>pp', ':FzfLua git_files<CR>')
 map('n', '<leader>pf', ':FzfLua files<CR>')
 map('n', '<leader>pb', ':FzfLua buffers<CR>')
 
+-- Ranger Config
+-- 1. Setup paths and ensure the directory actually exists
+local cache_dir = vim.fn.stdpath("cache")
+if vim.fn.isdirectory(cache_dir) == 0 then
+  vim.fn.mkdir(cache_dir, "p")
+end
+local ranger_chooser_path = cache_dir .. "/ranger_chooser"
+
+-- 2. Define the persistent Ranger terminal instance
+local Terminal = require('toggleterm.terminal').Terminal
+local ranger = Terminal:new({ 
+  cmd = 'ranger --choosefile=' .. ranger_chooser_path, 
+  hidden = true, 
+  direction = 'float',
+  on_close = function(_)
+    -- Only read if Ranger successfully created the file
+    if vim.fn.filereadable(ranger_chooser_path) == 1 then
+      local lines = vim.fn.readfile(ranger_chooser_path)
+      
+      -- Safely delete the temporary file
+      pcall(vim.fn.delete, ranger_chooser_path)
+      
+      if #lines > 0 and lines[1] ~= "" then
+        vim.schedule(function()
+          vim.cmd("edit " .. vim.fn.fnameescape(lines[1]))
+        end)
+      end
+    end
+  end,
+})
+
 -- Toggleterm
 map('n', '<leader>pv', function()
-  local Terminal = require('toggleterm.terminal').Terminal
-  local ranger = Terminal:new({ cmd = 'ranger', hidden = true, direction = 'float' })
+  -- Safely clear old data before launching (pcall prevents "file not found" errors)
+  pcall(vim.fn.delete, ranger_chooser_path)
   ranger:toggle()
 end)
 map('n', '<leader>pt', ':ToggleTerm<CR>')
