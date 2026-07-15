@@ -20,13 +20,13 @@ else
   FN_PRINT_GREEN_BANNER "PIP INSTALLED"
 fi
 
-if [ $(pip list | rg "pynvim" | wc -l) = 1 ]; then
-  FN_PRINT_YELLOW "Pynvim found."
-else
-  FN_PRINT_YELLOW "Pynvim not found, installing pynvim."
-  python3 -m pip install --user --upgrade pynvim
-  FN_PRINT_GREEN_BANNER "INSTALLED"
-fi
+# if [ $(pip list | rg "pynvim" | wc -l) = 1 ]; then
+#   FN_PRINT_YELLOW "Pynvim found."
+# else
+#   FN_PRINT_YELLOW "Pynvim not found, installing pynvim."
+#   python3 -m pip install --user --upgrade pynvim
+#   FN_PRINT_GREEN_BANNER "INSTALLED"
+# fi
 
 # Create backup
 if [ -f ${HOME_PATH}/nvim.appimage ]; then
