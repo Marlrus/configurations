@@ -102,54 +102,52 @@ map('n', '<leader>pp', ':FzfLua git_files<CR>')
 map('n', '<leader>pf', ':FzfLua files<CR>')
 map('n', '<leader>pb', ':FzfLua buffers<CR>')
 
--- Ranger Config
--- 1. Setup paths and ensure the directory actually exists
-local cache_dir = vim.fn.stdpath("cache")
-if vim.fn.isdirectory(cache_dir) == 0 then
-  vim.fn.mkdir(cache_dir, "p")
-end
-local ranger_chooser_path = cache_dir .. "/ranger_chooser"
+-- =========== Toggleterm Terminals ===========
 
--- 2. Define the persistent Ranger terminal instance
 local Terminal = require('toggleterm.terminal').Terminal
-local ranger = Terminal:new({ 
-  cmd = 'ranger --choosefile=' .. ranger_chooser_path, 
-  hidden = true, 
+
+-- Ranger
+local cache_dir = vim.fn.stdpath('cache')
+if vim.fn.isdirectory(cache_dir) == 0 then vim.fn.mkdir(cache_dir, 'p') end
+local ranger_chooser_path = cache_dir .. '/ranger_chooser'
+
+local ranger = Terminal:new({
+  cmd       = 'ranger --choosefile=' .. ranger_chooser_path,
+  hidden    = true,
   direction = 'float',
-  on_close = function(_)
-    -- Only read if Ranger successfully created the file
+  on_close  = function(_)
     if vim.fn.filereadable(ranger_chooser_path) == 1 then
       local lines = vim.fn.readfile(ranger_chooser_path)
-      
-      -- Safely delete the temporary file
       pcall(vim.fn.delete, ranger_chooser_path)
-      
-      if #lines > 0 and lines[1] ~= "" then
+      if #lines > 0 and lines[1] ~= '' then
         vim.schedule(function()
-          vim.cmd("edit " .. vim.fn.fnameescape(lines[1]))
+          vim.cmd('edit ' .. vim.fn.fnameescape(lines[1]))
         end)
       end
     end
   end,
 })
 
--- Toggleterm
-map('n', '<leader>pv', function()
-  -- Safely clear old data before launching (pcall prevents "file not found" errors)
+function _RANGER_TOGGLE()
   pcall(vim.fn.delete, ranger_chooser_path)
   ranger:toggle()
-end)
-map('n', '<leader>pt', ':ToggleTerm<CR>')
-map('n', '<leader>pc', function()
-  local Terminal = require('toggleterm.terminal').Terminal
+end
+
+-- Lazygit
+local lazygit = Terminal:new({ cmd = 'lazygit', hidden = true, direction = 'float' })
+function _LAZYGIT_TOGGLE() lazygit:toggle() end
+
+-- CWD terminal
+function _CWD_TOGGLE()
   local t = Terminal:new({ dir = vim.fn.expand('%:h'), direction = 'float' })
   t:toggle()
-end)
-map('n', '<leader>gv', function()
-  local Terminal = require('toggleterm.terminal').Terminal
-  local lazygit = Terminal:new({ cmd = 'lazygit', hidden = true, direction = 'float' })
-  lazygit:toggle()
-end)
+end
+
+-- Toggleterm / Ranger (terminals defined after toggleterm setup below)
+map('n', '<leader>pv', function() _RANGER_TOGGLE() end)
+map('n', '<leader>pt', ':ToggleTerm<CR>')
+map('n', '<leader>pc', function() _CWD_TOGGLE() end)
+map('n', '<leader>gv', function() _LAZYGIT_TOGGLE() end)
 
 -- Git (fugitive)
 map('n', '<leader>gb', ':Git blame<CR>')
