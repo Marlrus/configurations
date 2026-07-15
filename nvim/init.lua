@@ -3,16 +3,14 @@ local plug = vim.fn['plug#']
 
 vim.call('plug#begin', '~/.config/nvim/autoload/plugged')
 
-plug('junegunn/fzf', { ['do'] = function() vim.fn['fzf#install']() end })
-plug('junegunn/fzf.vim')
-plug('voldikss/vim-floaterm')
-plug('liuchengxu/vim-which-key', { ['on'] = {'WhichKey', 'WhichKey!'} })
-plug('wookayin/fzf-ripgrep.vim')
+plug('ibhagwan/fzf-lua')
+plug('akinsho/toggleterm.nvim')
+plug('folke/which-key.nvim')
 plug('sbdchd/neoformat')
-plug('jiangmiao/auto-pairs')
+plug('windwp/nvim-autopairs')
 plug('tpope/vim-surround')
 plug('tpope/vim-repeat')
-plug('tpope/vim-commentary')
+plug('numToStr/Comment.nvim')
 plug('tpope/vim-fugitive')
 -- Colorschemes (uncomment to switch)
 plug('tpope/vim-vividchalk')
@@ -23,7 +21,7 @@ plug('aperezdc/vim-elrond')
 plug('balanceiskey/vim-framer-syntax')
 plug('bluz71/vim-moonfly-colors')
 plug('agude/vim-eldar')
-plug('airblade/vim-gitgutter')
+plug('lewis6991/gitsigns.nvim')
 plug('styled-components/vim-styled-components', { branch = 'main' })
 plug('mbbill/undotree')
 plug('mfussenegger/nvim-dap')
@@ -98,29 +96,42 @@ map('n', '<leader>j', ':wincmd j<CR>')
 map('n', '<leader>l', ':wincmd l<CR>')
 map('n', '<leader>k', ':wincmd k<CR>')
 
--- FZF / Search
-map('n', '<leader>ps', ':Rg<CR>')
-map('n', '<leader>pp', ':GFiles<CR>')
-map('n', '<leader>pf', ':Files<CR>')
-map('n', '<leader>pb', ':Buffers<CR>')
+-- FZF-lua
+map('n', '<leader>ps', ':FzfLua live_grep<CR>')
+map('n', '<leader>pp', ':FzfLua git_files<CR>')
+map('n', '<leader>pf', ':FzfLua files<CR>')
+map('n', '<leader>pb', ':FzfLua buffers<CR>')
 
--- Floaterm
-map('n', '<leader>pv', ':FloatermNew --height=0.9 ranger<CR>')
-map('n', '<leader>pt', ':FloatermNew<CR>')
-map('n', '<leader>pc', ':FloatermNew --cwd %:h<CR>')
+-- Toggleterm
+map('n', '<leader>pv', function()
+  local Terminal = require('toggleterm.terminal').Terminal
+  local ranger = Terminal:new({ cmd = 'ranger', hidden = true, direction = 'float' })
+  ranger:toggle()
+end)
+map('n', '<leader>pt', ':ToggleTerm<CR>')
+map('n', '<leader>pc', function()
+  local Terminal = require('toggleterm.terminal').Terminal
+  local t = Terminal:new({ dir = vim.fn.expand('%:h'), direction = 'float' })
+  t:toggle()
+end)
+map('n', '<leader>gv', function()
+  local Terminal = require('toggleterm.terminal').Terminal
+  local lazygit = Terminal:new({ cmd = 'lazygit', hidden = true, direction = 'float' })
+  lazygit:toggle()
+end)
 
--- Git
-map('n', '<leader>gv', ':FloatermNew lazygit<CR>')
+-- Git (fugitive)
 map('n', '<leader>gb', ':Git blame<CR>')
 map('n', '<leader>gs', ':G<CR>')
 map('n', '<leader>gh', ':diffget //3<CR>')
 map('n', '<leader>gu', ':diffget //2<CR>')
 
--- GitGutter
-map('n', '<leader>gc', '<Plug>(GitGutterPreviewHunk)')
-map('n', '<leader>gn', '<Plug>(GitGutterNextHunk)')
-map('n', '<leader>gN', '<Plug>(GitGutterPrevHunk)')
-map('n', '<leader>gu', '<Plug>(GitGutterUndoHunk)')
+-- Gitsigns
+map('n', '<leader>gc', ':Gitsigns preview_hunk<CR>')
+map('n', '<leader>gn', ':Gitsigns next_hunk<CR>')
+map('n', '<leader>gN', ':Gitsigns prev_hunk<CR>')
+map('n', '<leader>gU', ':Gitsigns reset_hunk<CR>')
+map('n', '<leader>gl', ':Gitsigns blame_line<CR>')
 
 -- Undotree
 map('n', '<leader>pu', ':UndotreeToggle<CR>')
@@ -130,7 +141,7 @@ map('n', '<A-j>', ':m .+1<CR>==')
 map('n', '<A-k>', ':m .-2<CR>==')
 
 -- WhichKey
-map('n', '<leader>', ':WhichKey \'<Space>\'<CR>', { silent = true })
+map('n', '<leader>', function() require('which-key').show({ keys = '<leader>' }) end, { silent = true })
 
 -- Spell check
 map('n', '<leader>es', ':set spell spelllang=es<CR>')
@@ -168,21 +179,61 @@ endfunction
 
 -- =========== Plugin Settings ===========
 
--- Floaterm
-vim.g.floaterm_width = 0.9
-vim.g.floaterm_height = 0.9
-vim.g.floaterm_autoclose = 1
-vim.g.floaterm_opener = 'edit'
-
 -- Ripgrep
 if vim.fn.executable('rg') == 1 then
   vim.g.rg_derive_root = 'true'
-  -- vim.g.rg_command = 'rg --hidden'
 end
 
--- GitGutter
-vim.g.gitgutter_map_keys = 0
-vim.g.gitgutter_preview_win_floating = 1
+-- =========== FZF-Lua ===========
+
+require('fzf-lua').setup({
+  winopts = {
+    height = 0.9,
+    width  = 0.9,
+  },
+})
+
+-- =========== Toggleterm ===========
+
+require('toggleterm').setup({
+  size      = 20,
+  direction = 'float',
+  float_opts = {
+    border = 'curved',
+    width  = math.floor(vim.o.columns * 0.9),
+    height = math.floor(vim.o.lines * 0.9),
+  },
+  close_on_exit = true,
+  shell         = vim.o.shell,
+})
+
+-- =========== Which-Key ===========
+
+require('which-key').setup({})
+
+-- =========== Nvim Autopairs ===========
+
+require('nvim-autopairs').setup({})
+
+-- =========== Comment.nvim ===========
+
+require('Comment').setup({})
+
+-- =========== Gitsigns ===========
+
+require('gitsigns').setup({
+  signs = {
+    add          = { text = '│' },
+    change       = { text = '│' },
+    delete       = { text = '_' },
+    topdelete    = { text = '‾' },
+    changedelete = { text = '~' },
+  },
+  preview_config = {
+    border = 'rounded',
+  },
+})
+
 vim.cmd('highlight! link SignColumn LineNr')
 
 -- =========== Blink CMP ===========
@@ -190,10 +241,10 @@ vim.cmd('highlight! link SignColumn LineNr')
 require('blink.cmp').setup({
   keymap = {
     preset = 'default',
-    ['<C-e>']  = { 'cancel', 'fallback' },
-    ['<Tab>']  = { 'accept', 'fallback' },
-    ['<C-b>']  = { 'scroll_documentation_up', 'fallback' },
-    ['<C-f>']  = { 'scroll_documentation_down', 'fallback' },
+    ['<C-e>'] = { 'cancel', 'fallback' },
+    ['<Tab>'] = { 'accept', 'fallback' },
+    ['<C-b>'] = { 'scroll_documentation_up', 'fallback' },
+    ['<C-f>'] = { 'scroll_documentation_down', 'fallback' },
   },
   sources = {
     default = { 'lsp', 'buffer', 'path', 'cmdline' },
