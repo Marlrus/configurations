@@ -20,6 +20,9 @@ FN_PRINT_GREEN_BANNER "RIPGREP INSTALLED/UPDATED"
 sudo apt install git -y
 FN_PRINT_GREEN_BANNER "GIT INSTALLED/UPDATED"
 
+sudo apt install fzf -y
+FN_PRINT_GREEN_BANNER "FZF INSTALLED/UPDATED"
+
 if ! [ $(git config --global --list | rg ${GITHUB_EMAIL} | wc -l) = 1 ] && ! [ $(git config --global --list | rg ${GITHUB_NAME} | wc -l ) = 1 ]; then
   FN_PRINT_YELLOW "Git config does not match variables in modules file. Configuring global git user."
   git config --global user.email ${GITHUB_EMAIL}
