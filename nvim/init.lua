@@ -150,8 +150,8 @@ map('n', '<leader>f', ':Neoformat<CR>')
 map('x', '<leader>f', ':Neoformat<CR>')
 
 -- LSP diagnostics
-map('n', '<leader>n', vim.diagnostic.goto_next)
-map('n', '<leader>N', vim.diagnostic.goto_prev)
+map('n', '<leader>n', function() vim.diagnostic.jump({ count = 1 }) end)
+map('n', '<leader>N', function() vim.diagnostic.jump({ count = -1 }) end)
 
 -- Debugger
 map('n', '<leader>db', function() require('dap').toggle_breakpoint() end)
