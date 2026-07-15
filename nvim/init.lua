@@ -63,6 +63,9 @@ vim.o.signcolumn = 'yes'
 vim.o.updatetime = 100
 vim.o.termguicolors = true
 
+-- Neoformat: use project-local binaries (node_modules/.bin) before global
+vim.g.neoformat_try_node_exe = 1
+
 -- Block blinking cursor
 vim.o.guicursor = 'n-v-c-i:block,r-cr:hor20,o:hor50,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor,sm:block-blinkwait175-blinkoff150-blinkon175'
 
