@@ -96,15 +96,16 @@ map('n', '<leader>j', ':wincmd j<CR>')
 map('n', '<leader>l', ':wincmd l<CR>')
 map('n', '<leader>k', ':wincmd k<CR>')
 
--- FZF-lua
-map('n', '<leader>ps', ':FzfLua live_grep<CR>')
-map('n', '<leader>pp', ':FzfLua git_files<CR>')
-map('n', '<leader>pf', ':FzfLua files<CR>')
-map('n', '<leader>pb', ':FzfLua buffers<CR>')
-
 -- =========== Toggleterm Terminals ===========
 
 local Terminal = require('toggleterm.terminal').Terminal
+
+-- Float size — change this value to resize all terminals at once
+local float_scale = 0.75
+local float_opts = {
+  width  = math.floor(vim.o.columns * float_scale),
+  height = math.floor(vim.o.lines * float_scale),
+}
 
 -- Ranger
 local cache_dir = vim.fn.stdpath('cache')
@@ -114,7 +115,8 @@ local ranger_chooser_path = cache_dir .. '/ranger_chooser'
 local ranger = Terminal:new({
   cmd       = 'ranger --choosefile=' .. ranger_chooser_path,
   hidden    = true,
-  direction = 'float',
+  direction = 'float',  
+  float_opts = float_opts,
   on_close  = function(_)
     if vim.fn.filereadable(ranger_chooser_path) == 1 then
       local lines = vim.fn.readfile(ranger_chooser_path)
@@ -134,12 +136,21 @@ function _RANGER_TOGGLE()
 end
 
 -- Lazygit
-local lazygit = Terminal:new({ cmd = 'lazygit', hidden = true, direction = 'float' })
+local lazygit = Terminal:new({ 
+  cmd = 'lazygit', 
+  hidden = true, 
+  direction = 'float',
+  float_opts = float_opts,
+})
 function _LAZYGIT_TOGGLE() lazygit:toggle() end
 
 -- CWD terminal
 function _CWD_TOGGLE()
-  local t = Terminal:new({ dir = vim.fn.expand('%:h'), direction = 'float' })
+  local t = Terminal:new({ 
+    dir = vim.fn.expand('%:h'), 
+    direction = 'float',
+    float_opts = float_opts,
+  })
   t:toggle()
 end
 
@@ -148,6 +159,21 @@ map('n', '<leader>pv', function() _RANGER_TOGGLE() end)
 map('n', '<leader>pt', ':ToggleTerm<CR>')
 map('n', '<leader>pc', function() _CWD_TOGGLE() end)
 map('n', '<leader>gv', function() _LAZYGIT_TOGGLE() end)
+
+-- local float_scale = 0.75
+
+require('fzf-lua').setup({
+  winopts = {
+    height = float_scale,
+    width  = float_scale,
+  },
+})
+
+-- FZF-lua
+map('n', '<leader>ps', ':FzfLua live_grep<CR>')
+map('n', '<leader>pp', ':FzfLua git_files<CR>')
+map('n', '<leader>pf', ':FzfLua files<CR>')
+map('n', '<leader>pb', ':FzfLua buffers<CR>')
 
 -- Git (fugitive)
 map('n', '<leader>gb', ':Git blame<CR>')
@@ -212,15 +238,6 @@ endfunction
 if vim.fn.executable('rg') == 1 then
   vim.g.rg_derive_root = 'true'
 end
-
--- =========== FZF-Lua ===========
-
-require('fzf-lua').setup({
-  winopts = {
-    height = 0.9,
-    width  = 0.9,
-  },
-})
 
 -- =========== Toggleterm ===========
 
