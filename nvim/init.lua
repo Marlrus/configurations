@@ -101,7 +101,7 @@ map('n', '<leader>k', ':wincmd k<CR>')
 local Terminal = require('toggleterm.terminal').Terminal
 
 -- Float size — change this value to resize all terminals at once
-local float_scale = 0.75
+local float_scale = 0.80
 local float_opts = {
   width  = math.floor(vim.o.columns * float_scale),
   height = math.floor(vim.o.lines * float_scale),
@@ -160,12 +160,13 @@ map('n', '<leader>pt', ':ToggleTerm<CR>')
 map('n', '<leader>pc', function() _CWD_TOGGLE() end)
 map('n', '<leader>gv', function() _LAZYGIT_TOGGLE() end)
 
--- local float_scale = 0.75
+
+local fzf_float_scale = 0.75
 
 require('fzf-lua').setup({
   winopts = {
-    height = float_scale,
-    width  = float_scale,
+    height = fzf_float_scale,
+    width  = fzf_float_scale,
   },
 })
 
