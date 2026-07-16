@@ -102,54 +102,55 @@ local Terminal = require('toggleterm.terminal').Terminal
 
 -- Float size — change this value to resize all terminals at once
 local float_scale = 0.80
-local float_opts = {
-  width  = math.floor(vim.o.columns * float_scale),
-  height = math.floor(vim.o.lines * float_scale),
-}
+local function make_float_opts()
+  return {
+    width  = math.floor(vim.o.columns * float_scale),
+    height = math.floor(vim.o.lines * float_scale),
+  }
+end
 
 -- Ranger
 local cache_dir = vim.fn.stdpath('cache')
 if vim.fn.isdirectory(cache_dir) == 0 then vim.fn.mkdir(cache_dir, 'p') end
 local ranger_chooser_path = cache_dir .. '/ranger_chooser'
 
-local ranger = Terminal:new({
-  cmd       = 'ranger --choosefile=' .. ranger_chooser_path,
-  hidden    = true,
-  direction = 'float',  
-  float_opts = float_opts,
-  on_close  = function(_)
-    if vim.fn.filereadable(ranger_chooser_path) == 1 then
-      local lines = vim.fn.readfile(ranger_chooser_path)
-      pcall(vim.fn.delete, ranger_chooser_path)
-      if #lines > 0 and lines[1] ~= '' then
-        vim.schedule(function()
-          vim.cmd('edit ' .. vim.fn.fnameescape(lines[1]))
-        end)
-      end
-    end
-  end,
-})
-
 function _RANGER_TOGGLE()
   pcall(vim.fn.delete, ranger_chooser_path)
-  ranger:toggle()
+  local t = Terminal:new({
+    cmd        = 'ranger --choosefile=' .. ranger_chooser_path,
+    hidden     = true,
+    direction  = 'float',
+    float_opts = make_float_opts(),
+    on_close   = function(_)
+      if vim.fn.filereadable(ranger_chooser_path) == 1 then
+        local lines = vim.fn.readfile(ranger_chooser_path)
+        pcall(vim.fn.delete, ranger_chooser_path)
+        if #lines > 0 and lines[1] ~= '' then
+          vim.schedule(function()
+            vim.cmd('edit ' .. vim.fn.fnameescape(lines[1]))
+          end)
+        end
+      end
+    end,
+  })
+  t:toggle()
 end
 
--- Lazygit
-local lazygit = Terminal:new({ 
-  cmd = 'lazygit', 
-  hidden = true, 
-  direction = 'float',
-  float_opts = float_opts,
-})
-function _LAZYGIT_TOGGLE() lazygit:toggle() end
+function _LAZYGIT_TOGGLE()
+  local t = Terminal:new({
+    cmd        = 'lazygit',
+    hidden     = true,
+    direction  = 'float',
+    float_opts = make_float_opts(),
+  })
+  t:toggle()
+end
 
--- CWD terminal
 function _CWD_TOGGLE()
   local t = Terminal:new({ 
     dir = vim.fn.expand('%:h'), 
     direction = 'float',
-    float_opts = float_opts,
+    float_opts = make_float_opts(),
   })
   t:toggle()
 end
