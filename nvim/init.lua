@@ -1,36 +1,14 @@
--- =========== Plugins (vim-plug) ===========
-local plug = vim.fn['plug#']
-
-vim.call('plug#begin', '~/.config/nvim/autoload/plugged')
-
-plug('ibhagwan/fzf-lua')
-plug('akinsho/toggleterm.nvim')
-plug('folke/which-key.nvim')
-plug('sbdchd/neoformat')
-plug('windwp/nvim-autopairs')
-plug('tpope/vim-surround')
-plug('tpope/vim-repeat')
-plug('numToStr/Comment.nvim')
-plug('tpope/vim-fugitive')
--- Colorschemes (uncomment to switch)
-plug('tpope/vim-vividchalk')
-plug('bignimbus/pop-punk.vim')
-plug('zootedb0t/citruszest.nvim')
-plug('nyngwang/nvimgelion')
-plug('aperezdc/vim-elrond')
-plug('balanceiskey/vim-framer-syntax')
-plug('bluz71/vim-moonfly-colors')
-plug('agude/vim-eldar')
-plug('lewis6991/gitsigns.nvim')
-plug('styled-components/vim-styled-components', { branch = 'main' })
-plug('mbbill/undotree')
-plug('mfussenegger/nvim-dap')
-plug('rcarriga/nvim-dap-ui')
-plug('mxsdev/nvim-dap-vscode-js')
-plug('nvim-neotest/nvim-nio')
-plug('saghen/blink.cmp', { tag = 'v1.*' })
-
-vim.call('plug#end')
+-- =========== Lazy.nvim Bootstrap ===========
+local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
+if not vim.loop.fs_stat(lazypath) then
+  vim.fn.system({
+    'git', 'clone', '--filter=blob:none',
+    'https://github.com/folke/lazy.nvim.git',
+    '--branch=stable',
+    lazypath,
+  })
+end
+vim.opt.rtp:prepend(lazypath)
 
 -- =========== General Settings ===========
 
@@ -66,6 +44,66 @@ vim.o.guicursor = 'n-v-c-i:block,r-cr:hor20,o:hor50,a:blinkwait700-blinkoff400-b
 -- vim.o.ls = 0
 -- vim.o.ch = 0
 -- vim.o.colorcolumn = '100'
+
+-- =========== Plugins ===========
+
+require('lazy').setup({
+
+  -- ---- Fuzzy Finding ----
+  { 'ibhagwan/fzf-lua' },
+  { 'junegunn/fzf', build = function() vim.fn['fzf#install']() end },
+
+  -- ---- Terminal ----
+  { 'akinsho/toggleterm.nvim' },
+
+  -- ---- Which Key ----
+  { 'folke/which-key.nvim' },
+
+  -- ---- Formatting ----
+  { 'sbdchd/neoformat' },
+
+  -- ---- Editing Utilities ----
+  { 'windwp/nvim-autopairs' },
+  { 'tpope/vim-surround' },
+  { 'tpope/vim-repeat' },
+  { 'numToStr/Comment.nvim' },
+
+  -- ---- Git ----
+  { 'tpope/vim-fugitive' },
+  { 'lewis6991/gitsigns.nvim' },
+
+  -- ---- Colorschemes ----
+  { 'tpope/vim-vividchalk' },
+  { 'bignimbus/pop-punk.vim' },
+  { 'zootedb0t/citruszest.nvim' },
+  { 'nyngwang/nvimgelion' },
+  { 'aperezdc/vim-elrond' },
+  { 'balanceiskey/vim-framer-syntax' },
+  { 'bluz71/vim-moonfly-colors' },
+  { 'agude/vim-eldar' },
+
+  -- ---- Misc ----
+  { 'styled-components/vim-styled-components', branch = 'main' },
+  { 'mbbill/undotree' },
+
+  -- ---- Debugger ----
+  { 'mfussenegger/nvim-dap' },
+  { 'rcarriga/nvim-dap-ui' },
+  { 'mxsdev/nvim-dap-vscode-js' },
+  { 'nvim-neotest/nvim-nio' },
+
+  -- ---- Completion ----
+  { 'saghen/blink.cmp', version = '1.*' },
+
+}, {
+  -- Lazy.nvim options
+  install = {
+    colorscheme = { 'nvimgelion' },
+  },
+  ui = {
+    border = 'rounded',
+  },
+})
 
 -- =========== Colorscheme ===========
 
@@ -147,20 +185,20 @@ function _LAZYGIT_TOGGLE()
 end
 
 function _CWD_TOGGLE()
-  local t = Terminal:new({ 
-    dir = vim.fn.expand('%:h'), 
-    direction = 'float',
+  local t = Terminal:new({
+    dir        = vim.fn.expand('%:h'),
+    direction  = 'float',
     float_opts = make_float_opts(),
   })
   t:toggle()
 end
 
--- Toggleterm / Ranger (terminals defined after toggleterm setup below)
 map('n', '<leader>pv', function() _RANGER_TOGGLE() end)
 map('n', '<leader>pt', ':ToggleTerm<CR>')
 map('n', '<leader>pc', function() _CWD_TOGGLE() end)
 map('n', '<leader>gv', function() _LAZYGIT_TOGGLE() end)
 
+-- =========== FZF-Lua ===========
 
 local fzf_float_scale = 0.75
 
@@ -171,7 +209,6 @@ require('fzf-lua').setup({
   },
 })
 
--- FZF-lua
 map('n', '<leader>ps', ':FzfLua live_grep<CR>')
 map('n', '<leader>pp', ':FzfLua git_files<CR>')
 map('n', '<leader>pf', ':FzfLua files<CR>')
