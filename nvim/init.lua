@@ -65,6 +65,21 @@ require('lazy').setup({
   { 'windwp/nvim-autopairs' },
   { 'tpope/vim-surround' },
   { 'tpope/vim-repeat' },
+  {
+    'nvim-treesitter/nvim-treesitter',
+    lazy = false,
+    build = ':TSUpdate',
+    config = function()
+      require('nvim-treesitter.config').setup({
+        ensure_installed = {
+          'typescript', 'javascript', 'tsx', 'json',
+          'css', 'html', 'yaml', 'bash', 'lua', 'dockerfile',
+        },
+        auto_install = true,
+        highlight = { enable = true },
+      })
+    end,
+  },
   { 'numToStr/Comment.nvim' },
 
   -- ---- Git ----
