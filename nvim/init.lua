@@ -48,7 +48,6 @@ vim.o.guicursor = 'n-v-c-i:block,r-cr:hor20,o:hor50,a:blinkwait700-blinkoff400-b
 -- =========== Plugins ===========
 
 require('lazy').setup({
-
   -- ---- Fuzzy Finding ----
   { 'ibhagwan/fzf-lua' },
   { 'junegunn/fzf', build = function() vim.fn['fzf#install']() end },
@@ -89,14 +88,12 @@ require('lazy').setup({
   -- ---- Debugger ----
   { 'mfussenegger/nvim-dap' },
   { 'rcarriga/nvim-dap-ui' },
-  { 'mxsdev/nvim-dap-vscode-js' },
   { 'nvim-neotest/nvim-nio' },
 
   -- ---- Completion ----
   { 'saghen/blink.cmp', version = '1.*' },
 
 }, {
-  -- Lazy.nvim options
   install = {
     colorscheme = { 'nvimgelion' },
   },
@@ -159,6 +156,7 @@ function _RANGER_TOGGLE()
     hidden     = true,
     direction  = 'float',
     float_opts = make_float_opts(),
+    dir        = vim.fn.expand('%:h'),
     on_close   = function(_)
       if vim.fn.filereadable(ranger_chooser_path) == 1 then
         local lines = vim.fn.readfile(ranger_chooser_path)
@@ -212,6 +210,7 @@ require('fzf-lua').setup({
 map('n', '<leader>ps', ':FzfLua live_grep<CR>')
 map('n', '<leader>pp', ':FzfLua git_files<CR>')
 map('n', '<leader>pf', ':FzfLua files<CR>')
+map('n', '<leader>pF', function() require('fzf-lua').files({ cwd = vim.fn.expand('%:h') }) end)
 map('n', '<leader>pb', ':FzfLua buffers<CR>')
 
 -- Git (fugitive)
@@ -255,11 +254,41 @@ map('n', '<leader>n', function() vim.diagnostic.jump({ count = 1 }) end)
 map('n', '<leader>N', function() vim.diagnostic.jump({ count = -1 }) end)
 
 -- Debugger
-map('n', '<leader>db', function() require('dap').toggle_breakpoint() end)
-map('n', '<leader>dc', function() require('dap').continue() end)
-map('n', '<leader>dt', function() require('dap').terminate() end)
+map('n', '<leader>db',  function() require('dap').toggle_breakpoint() end)
+-- Set or remove a breakpoint on the current line
+
+map('n', '<leader>dB',  function() require('dap').set_breakpoint(vim.fn.input('Breakpoint condition: ')) end)
+-- Set a conditional breakpoint — only pauses when the condition is true (e.g. userId === '123')
+
+map('n', '<leader>dl',  function() require('dap').set_breakpoint(nil, nil, vim.fn.input('Log point message: ')) end)
+-- Set a log point — prints a message to the console without pausing execution
+
+map('n', '<leader>dc',  function() require('dap').continue() end)
+-- Start the session or continue execution until the next breakpoint
+
+map('n', '<leader>dt',  function() require('dap').terminate() end)
+-- Terminate the debug session
+
 map('n', '<leader>dso', function() require('dap').step_over() end)
+-- Step over — execute the current line and move to the next, without entering function calls
+
 map('n', '<leader>dsi', function() require('dap').step_into() end)
+-- Step into — enter the function call on the current line to debug inside it
+
+map('n', '<leader>dsu', function() require('dap').step_out() end)
+-- Step out — finish executing the current function and pause back at the caller
+
+map('n', '<leader>drc', function() require('dap').run_to_cursor() end)
+-- Run to cursor — continue execution and pause at the line the cursor is on
+
+map('n', '<leader>du',  function() require('dapui').toggle() end)
+-- Toggle the DAP UI panels (scopes, stacks, watches, console)
+
+map('n', '<leader>de',  function() require('dapui').eval() end)
+-- Evaluate the expression under the cursor and show its current value
+
+map('v', '<leader>de',  function() require('dapui').eval() end)
+-- Evaluate the highlighted expression and show its current value
 
 -- Macro on visual range
 map('x', '@', ':<C-u>call ExecuteMacroOverVisualRange()<CR>')
@@ -485,38 +514,68 @@ dap.listeners.before.launch.dapui_config = function() dapui.open() end
 dap.listeners.before.event_terminated.dapui_config = function() dapui.close() end
 dap.listeners.before.event_exited.dapui_config = function() dapui.close() end
 
-for _, language in ipairs({ 'typescript', 'javascript' }) do
-  dap.configurations[language] = {
-    {
-      type = 'pwa-node',
-      request = 'launch',
-      name = 'Launch file',
-      program = '${file}',
-      cwd = '${workspaceFolder}',
-    },
-    {
-      type = 'pwa-node',
-      request = 'attach',
-      address = 'localhost',
-      name = 'Auto Attach To Localhost Default',
-      cwd = '${workspaceFolder}',
-    },
-    {
-      type = 'pwa-node',
-      request = 'attach',
-      name = 'Attach to Process',
-      processId = require('dap.utils').pick_process,
-      cwd = '${workspaceFolder}',
+local debugger_path = '/home/marlrus/.dotfiles/vscode-js-debug/dist/src/dapDebugServer.js'
+
+for _, adapter in ipairs({ 'pwa-node', 'pwa-chrome', 'pwa-msedge', 'node-terminal', 'pwa-extensionHost' }) do
+  dap.adapters[adapter] = {
+    type = 'server',
+    host = '127.0.0.1',
+    port = '${port}',
+    executable = {
+      command = 'node',
+      args    = { debugger_path, '${port}' },
     },
   }
 end
 
-require('dap-vscode-js').setup({
-  -- node_path = 'node',
-  debugger_path = '/home/marlrus/.dotfiles/vscode-js-debug',
-  -- debugger_cmd = { 'js-debug-adapter' },
-  adapters = { 'pwa-node', 'pwa-chrome', 'pwa-msedge', 'node-terminal', 'pwa-extensionHost' },
-  -- log_file_path = '(stdpath cache)/dap_vscode_js.log'
-  -- log_file_level = false
-  -- log_console_level = vim.log.levels.ERROR
-})
+for _, language in ipairs({ 'typescript', 'javascript' }) do
+  dap.configurations[language] = {
+    {
+      type    = 'pwa-node',
+      request = 'launch',
+      name    = 'Launch file',
+      program = '${file}',
+      cwd     = '${workspaceFolder}',
+    },
+    {
+      type    = 'pwa-node',
+      request = 'attach',
+      address = 'localhost',
+      name    = 'Auto Attach To Localhost Default',
+      cwd     = '${workspaceFolder}',
+    },
+    {
+      type      = 'pwa-node',
+      request   = 'attach',
+      name      = 'Attach to Process',
+      processId = require('dap.utils').pick_process,
+      cwd       = '${workspaceFolder}',
+    },
+    {
+      type       = 'pwa-node',
+      request    = 'attach',
+      name       = 'Attach to Docker',
+      address    = 'localhost',
+      port       = 9229,
+      cwd        = '${workspaceFolder}',
+      localRoot  = '${workspaceFolder}',
+      remoteRoot = '/app',
+      sourceMaps = true,
+      outFiles   = {
+        '${workspaceFolder}/dist/**/*.js',
+        '!${workspaceFolder}/node_modules/**',
+      },
+      skipFiles  = { '<node_internals>/**', 'node_modules/**' },
+      resolveSourceMapLocations = {
+        '${workspaceFolder}/**',
+        '!**/node_modules/**',
+      },
+      pauseForSourceMap = false,
+      timeout    = 30000,
+      sourceMapPathOverrides = {
+        ['/app/src/*'] = '${workspaceFolder}/src/*',
+        ['/app/*']     = '${workspaceFolder}/*',
+      },
+    },
+  }
+end
