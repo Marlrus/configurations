@@ -65,22 +65,9 @@ require('lazy').setup({
   { 'windwp/nvim-autopairs' },
   { 'tpope/vim-surround' },
   { 'tpope/vim-repeat' },
-  {
-    'nvim-treesitter/nvim-treesitter',
-    lazy = false,
-    build = ':TSUpdate',
-    config = function()
-      require('nvim-treesitter.config').setup({
-        ensure_installed = {
-          'typescript', 'javascript', 'tsx', 'json',
-          'css', 'html', 'yaml', 'bash', 'lua', 'dockerfile',
-        },
-        auto_install = true,
-        highlight = { enable = true },
-      })
-    end,
-  },
-  { 'numToStr/Comment.nvim' },
+  { 'JoosepAlviste/nvim-ts-context-commentstring' },
+  { 'nvim-treesitter/nvim-treesitter', build = ':TSUpdate' },
+  { 'echasnovski/mini.comment' },
 
   -- ---- Git ----
   { 'tpope/vim-fugitive' },
@@ -344,9 +331,32 @@ require('which-key').setup({})
 
 require('nvim-autopairs').setup({})
 
--- =========== Comment.nvim ===========
+-- =========== Treesitter ===========
 
-require('Comment').setup({})
+require('nvim-treesitter.config').setup({
+  ensure_installed = {
+    'typescript', 'javascript', 'tsx', 'json',
+    'css', 'html', 'yaml', 'bash', 'lua', 'dockerfile',
+  },
+  auto_install = true,
+  highlight = { enable = true },
+})
+
+-- =========== ts-context-commentstring ===========
+
+require('ts_context_commentstring').setup({
+  enable_autocmd = false,
+})
+
+-- =========== mini.comment ===========
+
+require('mini.comment').setup({
+  options = {
+    custom_commentstring = function()
+      return require('ts_context_commentstring').calculate_commentstring() or vim.bo.commentstring
+    end,
+  },
+})
 
 -- =========== Gitsigns ===========
 
