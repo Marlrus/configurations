@@ -252,8 +252,22 @@ map('n', '<leader>f', ':Neoformat<CR>')
 map('x', '<leader>f', ':Neoformat<CR>')
 
 -- LSP diagnostics
+vim.diagnostic.config({
+  underline        = true,
+  signs            = true,
+  update_in_insert = true,
+  virtual_text     = true,
+  float            = {
+    border   = 'rounded',
+    source   = true,
+    focusable = false,
+  },
+})
+
+-- LSP diagnostics
 map('n', '<leader>n', function() vim.diagnostic.jump({ count = 1 }) end)
 map('n', '<leader>N', function() vim.diagnostic.jump({ count = -1 }) end)
+map('n', '<leader>e', function() vim.diagnostic.open_float() end)
 
 -- Debugger
 map('n', '<leader>db',  function() require('dap').toggle_breakpoint() end)
@@ -421,7 +435,6 @@ local on_attach = function(_, bufnr)
   vim.keymap.set('n', 'K',        vim.lsp.buf.hover,          { buffer = bufnr })
   vim.keymap.set('n', 'gy',       vim.lsp.buf.type_definition,{ buffer = bufnr })
   vim.keymap.set('n', '<F2>',     vim.lsp.buf.rename,         { buffer = bufnr })
-  vim.keymap.set('n', '<space>e', vim.diagnostic.open_float,  { buffer = bufnr })
 end
 
 local server_configs = {
