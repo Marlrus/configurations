@@ -264,7 +264,6 @@ vim.diagnostic.config({
   },
 })
 
--- LSP diagnostics
 map('n', '<leader>n', function() vim.diagnostic.jump({ count = 1 }) end)
 map('n', '<leader>N', function() vim.diagnostic.jump({ count = -1 }) end)
 map('n', '<leader>e', function() vim.diagnostic.open_float() end)
