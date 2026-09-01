@@ -75,7 +75,29 @@ FN_PRINT_YELLOW "Verify the clock is running at the desired sample rate with: pw
 
 read -p "Press any key to Continue"
 
-FN_PRINT_YELLOW "Run the command: qpwgraph. This will open a GUI for the PipeWire Graph. You should see all of your devices and how they are connected to each other. This is where you will connect your devices to your DAW by patching I/O to Digital I/O configured in the DAW."
+FN_PRINT_YELLOW "Open the newly installed program qpwgraph through the search bar or run the command: qpwgraph. This will open a GUI for the PipeWire Graph. You should see all of your devices and how they are connected to each other. This is where you will connect your devices to your DAW by patching I/O to Digital I/O configured in the DAW."
+
+read -p "Press any key to Continue"
+
+FN_PRINT_YELLOW "You set your cards to pro-audio, however, if you reconnect, restart, or reboot the devices or computer, they will revert to their default profile. To have WirePlumber force pro-audio for your device when they connect to your computer, we need to set a WirePlumber rule in a config file:"
+
+echo "mkdir -p ~/.config/wireplumber/wireplumber.conf.d
+cat > ~/.config/wireplumber/wireplumber.conf.d/51-pro-audio.conf <<'EOF'
+monitor.alsa.rules = [
+  {
+    matches = [
+      { device.name = "<CARD_NAME>" }
+    ]
+    actions = {
+      update-props = {
+        device.profile = "<PROFILE_NAME>"
+      }
+    }
+  }
+]
+EOF"
+
+FN_PRINT_YELLOW "If you have many devices, add them to the 'matches' list with no commas. Restart WirePlumber to load the rule: systemctl --user restart wireplumber. Te verify that the rule is working, power-cycle one of the devices or unplug/replug and check with: wpctl status which should show them loaded in the pro configuration. You can also verify the default profiles are set correctly by running: cat .local/state/wireplumber/default-profile. This will show your cards and their default profile used by wireplumber."
 
 read -p "Press any key to Continue"
 
