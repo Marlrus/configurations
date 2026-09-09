@@ -264,9 +264,23 @@ vim.diagnostic.config({
   },
 })
 
-map('n', '<leader>n', function() vim.diagnostic.jump({ count = 1 }) end)
-map('n', '<leader>N', function() vim.diagnostic.jump({ count = -1 }) end)
-map('n', '<leader>e', function() vim.diagnostic.open_float() end)
+map('n', '<leader>e', function()
+  vim.schedule(function()
+    vim.diagnostic.open_float({ scope = 'line' })
+  end)
+end)
+map('n', '<leader>n', function()
+  vim.diagnostic.jump({ count = 1 })
+  vim.schedule(function()
+    vim.diagnostic.open_float({ scope = 'cursor' })
+  end)
+end)
+map('n', '<leader>N', function()
+  vim.diagnostic.jump({ count = -1 })
+  vim.schedule(function()
+    vim.diagnostic.open_float({ scope = 'cursor' })
+  end)
+end)
 
 -- Debugger
 map('n', '<leader>db',  function() require('dap').toggle_breakpoint() end)
