@@ -95,6 +95,14 @@ require('lazy').setup({
   -- ---- Completion ----
   { 'saghen/blink.cmp', version = '1.*' },
 
+  -- ---- AI ----
+  {
+    'coder/claudecode.nvim',
+    dependencies = { 'folke/snacks.nvim' },
+    opts = {
+      terminal_cmd = vim.fn.expand('~/.local/bin/claude'),
+    },
+  },
 }, {
   install = {
     colorscheme = { 'nvimgelion' },
@@ -630,3 +638,12 @@ for _, language in ipairs({ 'typescript', 'javascript' }) do
     },
   }
 end
+
+-- Claude Code
+map('n', '<leader>ac', ':ClaudeCode<CR>',           { desc = 'Toggle Claude' })
+map('v', '<leader>as', '<cmd>ClaudeCodeSend<CR>',   { desc = 'Send selection to Claude' })
+map('n', '<leader>aa', ':ClaudeCodeDiffAccept<CR>', { desc = 'Accept Claude diff' })
+map('n', '<leader>ad', ':ClaudeCodeDiffDeny<CR>',   { desc = 'Reject Claude diff' })
+
+-- Leave terminal mode (works in Claude and toggleterm terminals)
+map('t', '<C-q>', '<C-\\><C-n>')
